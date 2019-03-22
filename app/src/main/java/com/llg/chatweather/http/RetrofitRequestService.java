@@ -5,9 +5,12 @@ import com.llg.chatweather.bean.ErrorBean;
 import com.llg.chatweather.bean.NowResultsBean;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * create by loogen on 2019-3-21
@@ -16,17 +19,17 @@ public interface RetrofitRequestService {
 
 
     //获取当前的天气信息
-    @GET("now.json?key={api_key}&location={location}&language={language}&unit={unit}")
-    Observable<NowResultsBean> queryNow(@Path("api_key") String apiKey,
-                                        @Path("location") String location,
-                                        @Path("language") String language,
-                                        @Path("unit") String unit);
+    @GET("weather/now.json")
+    Observable<ResponseBody> queryNow(@Query("key") String apiKey,
+                                      @Query("location") String location,
+                                      @Query("language") String language,
+                                      @Query("unit") String unit);
 
-
-    @GET("daily.json?key={api_key}&location={location}&language={language}&unit={unit}&start={start}&days={days}")
-    Observable<DailyResultBean> queryDaily(@Path("api_key") String apiKey,
-                                           @Path("location") String language,
-                                           @Path("unit") String unit,
-                                           @Path("start") String start,
-                                           @Path("days") int days);
+    //获取三日之内的天气情况
+    @GET("daily.json")
+    Observable<DailyResultBean> queryDaily(@Query("key") String apiKey,
+                                           @Query("location") String language,
+                                           @Query("unit") String unit,
+                                           @Query("start") String start,
+                                           @Query("days") int days);
 }
