@@ -95,6 +95,17 @@ public class NowResultsBean {
         public void setTimezone_offset(String timezone_offset) {
             this.timezone_offset = timezone_offset;
         }
+
+        @Override
+        public String toString() {
+            return "LocationBean{" +
+                    "id='" + id + '\'' +
+                    ", name='" + name + '\'' +
+                    ", country='" + country + '\'' +
+                    ", timezone='" + timezone + '\'' +
+                    ", timezone_offset='" + timezone_offset + '\'' +
+                    '}';
+        }
     }
 
     public static class NowBean {
@@ -231,6 +242,34 @@ public class NowResultsBean {
         public void setDew_point(String dew_point) {
             this.dew_point = dew_point;
         }
+
+        @Override
+        public String toString() {
+            return "NowBean{" +
+                    "text='" + text + '\'' +
+                    ", code='" + code + '\'' +
+                    ", temperature='" + temperature + '\'' +
+                    ", feels_like='" + feels_like + '\'' +
+                    ", pressure='" + pressure + '\'' +
+                    ", humidity='" + humidity + '\'' +
+                    ", visibility='" + visibility + '\'' +
+                    ", wind_direction='" + wind_direction + '\'' +
+                    ", wind_direction_degree='" + wind_direction_degree + '\'' +
+                    ", wind_speed='" + wind_speed + '\'' +
+                    ", wind_scale='" + wind_scale + '\'' +
+                    ", clouds='" + clouds + '\'' +
+                    ", dew_point='" + dew_point + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "NowResultsBean{" +
+                "location=" + location +
+                ", now=" + now +
+                ", last_update='" + last_update + '\'' +
+                '}';
     }
 }
 
