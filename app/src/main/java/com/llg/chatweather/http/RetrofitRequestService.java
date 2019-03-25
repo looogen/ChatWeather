@@ -1,31 +1,44 @@
 package com.llg.chatweather.http;
 
-import com.llg.chatweather.bean.BaseBean;
-import com.llg.chatweather.bean.DailyResultBean;
-import com.llg.chatweather.bean.NowResultsBean;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import io.reactivex.Observable;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * create by loogen on 2019-3-21
+ * create by loogen on 2019-3-25
  */
-public interface RetrofitRequestService {
+public class RetrofitRequestService {
+
+    private static RetrofitRequestService sRetrofitRequestService;
+
+    private RetrofitRequestService(){
+
+    }
+
+    public static RetrofitRequestService getInstance(){
+        if (sRetrofitRequestService == null){
+            synchronized (RetrofitRequestService.class){
+                if (sRetrofitRequestService == null){
+                    sRetrofitRequestService = new RetrofitRequestService();
+                }
+            }
+        }
+        return sRetrofitRequestService;
+    }
+
+    public RetrofitRequestInferface getService() {
+        //1 创建retrofit 对象
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BASE_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        //2 创建网络接口实例
+        return retrofit.create(RetrofitRequestInferface.class);
+    }
 
 
-    //获取当前的天气信息
-    @GET("weather/now.json")
-    Observable<BaseBean<NowResultsBean>> queryNow(@Query("key") String apiKey,
-                                                  @Query("location") String location,
-                                                  @Query("language") String language,
-                                                  @Query("unit") String unit);
 
-    //获取三日之内的天气情况
-    @GET("daily.json")
-    Observable<BaseBean<DailyResultBean>> queryDaily(@Query("key") String apiKey,
-                                           @Query("location") String language,
-                                           @Query("unit") String unit,
-                                           @Query("start") String start,
-                                           @Query("days") int days);
+
 }
