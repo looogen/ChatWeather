@@ -2,6 +2,7 @@ package com.llg.chatweather.model;
 
 import android.util.Log;
 
+import com.llg.chatweather.BaseActivity;
 import com.llg.chatweather.bean.BaseBean;
 import com.llg.chatweather.bean.NowResultsBean;
 import com.llg.chatweather.http.Constant;
@@ -21,29 +22,39 @@ public class WeatherModel {
     private static final String TAG = "WeatherModel";
     private WeatherDataInterface mWeatherDataInterface;
     private RetrofitRequestInferface mRequestInferface;
+    private BaseActivity mActivity;
 
-    public WeatherModel(WeatherDataInterface weatherDataInterface) {
-        mWeatherDataInterface = weatherDataInterface;
+    public WeatherModel(BaseActivity mActivity) {
+        this.mActivity = mActivity;
         mRequestInferface =  RetrofitRequestService.getInstance().getService();
     }
 
+    public void setmWeatherDataInterface(WeatherDataInterface mWeatherDataInterface) {
+        this.mWeatherDataInterface = mWeatherDataInterface;
+    }
 
-    public void getNowWeatherData(String location,String language,String unit) {
+    public void getNowWeatherData(String location, String language, String unit) {
         Observable<BaseBean<NowResultsBean>> observable = mRequestInferface.queryNow(Constant.API_KEY, location,language,unit);
-        observable.subscribeOn(Schedulers.io())
+        Disposable disposable = observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<BaseBean<NowResultsBean>>() {
                     @Override
-                    public void accept(BaseBean<NowResultsBean> baseBean) throws Exception {
-                        Log.e(TAG, baseBean.getResults().get(0).toString());
+                    public void accept(BaseBean<NowResultsBean> NowResultsBean) throws Exception {
+                        Log.e(TAG, NowResultsBean.getResults().get(0).toString());
+                        if (mWeatherDataInterface != null){
+                            mWeatherDataInterface.showNowWeatherData(NowResultsBean);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e(TAG,throwable.toString());
+                        if (mWeatherDataInterface != null){
+                            mWeatherDataInterface.refreshError(throwable.toString());
+                        }
                     }
                 });
-
+        mActivity.mCompositeDisposable.add(disposable);
     }
 
 

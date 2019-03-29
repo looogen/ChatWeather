@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * create by loogen on 2019-3-18
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    protected static final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    public final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private static final String  TAG = "BaseActivity";
 
 
