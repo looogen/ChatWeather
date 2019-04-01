@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChatWeather</string>
+    <string name="fragment_home">home</string>
 </resources>

@@ -33,9 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 另外当Activity生命周期走到destroy后（注意：并不是Activity对象被回收），
         // 之后Activity中的view却要根据事件结果设置属性，则可能导致空指针异常（view的引用已被释放）。
         //dispose Observable
-        Log.e(TAG, "onDestroy: mCompositeDisposable isDisposed========"+   mCompositeDisposable.isDisposed());
         mCompositeDisposable.dispose();
-        Log.e(TAG, "onDestroy: mCompositeDisposable isDisposed========"+   mCompositeDisposable.isDisposed());
         super.onDestroy();
     }
 }
