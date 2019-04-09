@@ -26,7 +26,7 @@ public class WeatherViewModel implements WeatherDataInterface {
     }
 
     private void requestData() {
-        model.getNowWeatherData("zhuhai","en","");
+        model.getNowWeatherData("zhuhai","zh-Hans","");
     }
 
     @Override
@@ -37,6 +37,7 @@ public class WeatherViewModel implements WeatherDataInterface {
 
     @Override
     public void refreshError(String msg) {
+
 
     }
 }
