@@ -1,4 +1,4 @@
-package com.llg.chatweather;
+package com.llg.chatweather.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -59,7 +59,6 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
 
         setFocusable(true);
         setFocusableInTouchMode(true);
-        this.setKeepScreenOn(true);
 
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);

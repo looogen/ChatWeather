@@ -2,7 +2,7 @@ package com.llg.chatweather.model;
 
 import android.util.Log;
 
-import com.llg.chatweather.BaseActivity;
+import com.llg.chatweather.view.BaseActivity;
 import com.llg.chatweather.bean.BaseBean;
 import com.llg.chatweather.bean.NowResultsBean;
 import com.llg.chatweather.http.Constant;
