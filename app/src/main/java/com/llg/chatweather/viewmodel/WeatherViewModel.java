@@ -2,7 +2,7 @@ package com.llg.chatweather.viewmodel;
 
 import android.databinding.ObservableField;
 
-import com.llg.chatweather.BaseActivity;
+import com.llg.chatweather.view.BaseActivity;
 import com.llg.chatweather.bean.BaseBean;
 import com.llg.chatweather.bean.NowResultsBean;
 import com.llg.chatweather.model.WeatherDataInterface;
@@ -26,7 +26,7 @@ public class WeatherViewModel implements WeatherDataInterface {
     }
 
     private void requestData() {
-        model.getNowWeatherData("zhuhai","en","");
+        model.getNowWeatherData("zhuhai","zh-Hans","");
     }
 
     @Override
@@ -37,6 +37,7 @@ public class WeatherViewModel implements WeatherDataInterface {
 
     @Override
     public void refreshError(String msg) {
+
 
     }
 }
