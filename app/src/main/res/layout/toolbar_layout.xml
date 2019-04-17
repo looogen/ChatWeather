@@ -2,21 +2,14 @@
   <android.support.design.widget.AppBarLayout
       xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/transparent"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-    android:elevation="0dp">
+      app:elevation="0dp"
+      android:background="@null">
       <android.support.v7.widget.Toolbar
           android:id="@+id/toolbar"
           android:layout_width="match_parent"
-          android:layout_height="44dp"
-          app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-          app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-          android:background="@android:color/transparent"
-          android:fitsSystemWindows="true"
-          android:elevation="0dp"
-          app:contentInsetLeft="0dp"
-          app:contentInsetStart="0dp">
+          android:layout_height="44dp">
           <RelativeLayout
               android:layout_width="match_parent"
               android:layout_height="match_parent">

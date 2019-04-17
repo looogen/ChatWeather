@@ -5,29 +5,27 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.llg.chatweather.view.MainActivity;
+import com.gyf.immersionbar.ImmersionBar;
+import com.gyf.immersionbar.components.SimpleImmersionFragment;
 import com.llg.chatweather.R;
 import com.llg.chatweather.databinding.FragmentMainBinding;
-import com.llg.chatweather.utils.StatusBarUtil;
+import com.llg.chatweather.view.MainActivity;
 import com.llg.chatweather.viewmodel.WeatherViewModel;
 
 /**
  * create by loogen on 2019-3-29
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends SimpleImmersionFragment {
 
     private FragmentMainBinding mBindingView;
 
     private MainActivity mActivity;
 
-    private Toolbar mToolbar;
+  //  private Toolbar mToolbar;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -41,8 +39,8 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBindingView = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         View view = mBindingView.getRoot();
-        mToolbar = view.findViewById(R.id.toolbar);
-        setUpBar();
+        //mToolbar = view.findViewById(R.id.toolbar);
+       // setUpBar();
         return view;
     }
 
@@ -50,7 +48,7 @@ public class MainFragment extends Fragment {
      * 设置状态栏、工具栏、导航栏
      */
     private void setUpBar() {
-        StatusBarUtil.setTranslucent(mActivity);
+      //  ImmersionBar.setTitleBar(mActivity,mToolbar);
     }
 
     @Override
@@ -74,4 +72,11 @@ public class MainFragment extends Fragment {
         mBindingView.setWeatherviewmodel(weatherViewModel);
     }
 
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(this)
+                .transparentStatusBar()  //不写也可以，默认就是透明色
+                .fullScreen(true)
+                .init();
+    }
 }

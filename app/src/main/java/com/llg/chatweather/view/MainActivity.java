@@ -1,7 +1,7 @@
 package com.llg.chatweather.view;
 
 import android.os.Bundle;
-import android.view.WindowManager;
+import android.support.v4.widget.DrawerLayout;
 
 import com.llg.chatweather.R;
 import com.llg.chatweather.view.fragment.MainFragment;
@@ -10,18 +10,21 @@ public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
 
+    private DrawerLayout mDrawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
-        layoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | layoutParams.flags);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //设置透明状态栏
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame,MainFragment.newInstance(),"main")
                 .commit();
     }
 
+    public DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
 
     @Override
     protected int getLayoutId() {
