@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,9 @@ public class MainFragment extends SimpleImmersionFragment {
     }
 
     private void setUpBar() {
-
+        mActivity.setSupportActionBar(mToolbar);
+        ActionBar actionBar = mActivity.getSupportActionBar();
+        mToolbar.setNavigationIcon(R.drawable.ic_menu);
     }
 
     @Override
@@ -75,12 +78,12 @@ public class MainFragment extends SimpleImmersionFragment {
         mBindingView.setWeatherviewmodel(weatherViewModel);
     }
 
+
+
     @Override
     public void initImmersionBar() {
                 ImmersionBar.with(this)
-                .titleBar(mToolbar, true)
                 .transparentBar()
                 .init();
-
     }
 }
