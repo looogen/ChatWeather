@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,7 @@ public class MainFragment extends SimpleImmersionFragment {
 
     private MainActivity mActivity;
 
-  //  private Toolbar mToolbar;
+    private Toolbar mToolbar;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -38,17 +40,18 @@ public class MainFragment extends SimpleImmersionFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBindingView = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-        View view = mBindingView.getRoot();
-        //mToolbar = view.findViewById(R.id.toolbar);
-       // setUpBar();
-        return view;
+        return mBindingView.getRoot();
     }
 
-    /**
-     * 设置状态栏、工具栏、导航栏
-     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mToolbar = mBindingView.getRoot().findViewById(R.id.toolbar);
+        ImmersionBar.setTitleBar(mActivity, mToolbar);
+    }
+
     private void setUpBar() {
-      //  ImmersionBar.setTitleBar(mActivity,mToolbar);
+
     }
 
     @Override
@@ -74,9 +77,10 @@ public class MainFragment extends SimpleImmersionFragment {
 
     @Override
     public void initImmersionBar() {
-        ImmersionBar.with(this)
-                .transparentStatusBar()  //不写也可以，默认就是透明色
-                .fullScreen(true)
+                ImmersionBar.with(this)
+                .titleBar(mToolbar, true)
+                .transparentBar()
                 .init();
+
     }
 }
