@@ -37,7 +37,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
-//    https://github.com/gyf-dev/ImmersionBar 状态栏工具
+    //ImmersionBar 状态栏工具  url:https://github.com/gyf-dev/
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0-beta01'
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0-beta01'
 }
