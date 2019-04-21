@@ -5,15 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gyf.immersionbar.ImmersionBar;
-import com.gyf.immersionbar.components.SimpleImmersionFragment;
 import com.llg.chatweather.R;
 import com.llg.chatweather.databinding.FragmentMainBinding;
 import com.llg.chatweather.view.MainActivity;
@@ -22,7 +19,7 @@ import com.llg.chatweather.viewmodel.WeatherViewModel;
 /**
  * create by loogen on 2019-3-29
  */
-public class MainFragment extends SimpleImmersionFragment {
+public class MainFragment extends BaseFragment {
 
     private FragmentMainBinding mBindingView;
 
@@ -49,12 +46,12 @@ public class MainFragment extends SimpleImmersionFragment {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = mBindingView.getRoot().findViewById(R.id.toolbar);
         ImmersionBar.setTitleBar(mActivity, mToolbar);
+        setUpBar();
     }
 
     private void setUpBar() {
-        mActivity.setSupportActionBar(mToolbar);
-        ActionBar actionBar = mActivity.getSupportActionBar();
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mActivity.setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -77,7 +74,6 @@ public class MainFragment extends SimpleImmersionFragment {
         WeatherViewModel weatherViewModel = new WeatherViewModel(mActivity);
         mBindingView.setWeatherviewmodel(weatherViewModel);
     }
-
 
 
     @Override
