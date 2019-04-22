@@ -14,6 +14,7 @@ import com.llg.chatweather.model.WeatherModel;
 public class WeatherViewModel implements WeatherDataInterface {
     public final ObservableField<String> city = new ObservableField<>("-- --");
     public final ObservableField<String> temperature = new ObservableField<>("NaN");
+    public final ObservableField<String> weather = new ObservableField<>("--");
     private WeatherModel model;
 
     private BaseActivity mActivity;
@@ -33,6 +34,7 @@ public class WeatherViewModel implements WeatherDataInterface {
     public void showNowWeatherData(BaseBean<NowResultsBean> bean) {
         city.set(bean.getResults().get(0).getLocation().getName());
         temperature.set(bean.getResults().get(0).getNow().getTemperature());
+        weather.set(bean.getResults().get(0).getNow().getText());
     }
 
     @Override

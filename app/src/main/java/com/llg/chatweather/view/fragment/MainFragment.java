@@ -46,7 +46,7 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = mBindingView.getRoot().findViewById(R.id.toolbar);
         ImmersionBar.setTitleBar(mActivity, mToolbar);
-        setUpBar();
+      //  setUpBar();
     }
 
     private void setUpBar() {
