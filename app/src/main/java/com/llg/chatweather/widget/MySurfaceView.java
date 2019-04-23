@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.llg.chatweather.R;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * create by loogen on 2019-4-9
  */
-public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public  class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private SurfaceHolder mHolder;
     private Canvas mCanvas;
@@ -63,8 +65,12 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);
         randomLine(rect.width(), rect.height());
+
+
+       // initLinePaint(mPaint);
+
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.RED);
+        mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(4);
     }
 
@@ -89,7 +95,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         while (isNeedDrawing) {
             try {
                 mCanvas = mHolder.lockCanvas();
-                mCanvas.drawColor(Color.WHITE);
+                mCanvas.drawColor(getResources().getColor(R.color.sky));
                 drawRain(mCanvas);
                 changeRain();
                 mHolder.unlockCanvasAndPost(mCanvas);
@@ -121,4 +127,7 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
             mRainLines.add(rainLine);
         }
     }
+
+
+//    protected abstract void initLinePaint(Paint paint);
 }

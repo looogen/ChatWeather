@@ -27,6 +27,8 @@ public class RainLine {
     public void change() {
         if (mStartY + mDy > mMaxY) {
             mStartY = 0;
+            //一次下落后随机改变x坐标
+            mStartX = mRandom.nextInt(mMaxX);
         } else {
             mStartY += mDy;
         }

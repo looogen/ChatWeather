@@ -32,9 +32,11 @@ public class WeatherViewModel implements WeatherDataInterface {
 
     @Override
     public void showNowWeatherData(BaseBean<NowResultsBean> bean) {
-        city.set(bean.getResults().get(0).getLocation().getName());
-        temperature.set(bean.getResults().get(0).getNow().getTemperature());
-        weather.set(bean.getResults().get(0).getNow().getText());
+        NowResultsBean nowResultsBean = bean.getResults().get(0);
+
+        city.set(nowResultsBean.getLocation().getName());
+        temperature.set(nowResultsBean.getNow().getTemperature());
+        weather.set(nowResultsBean.getNow().getText());
     }
 
     @Override
