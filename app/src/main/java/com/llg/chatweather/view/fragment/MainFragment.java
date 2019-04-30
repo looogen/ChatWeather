@@ -5,6 +5,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,11 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.llg.chatweather.R;
 import com.llg.chatweather.databinding.FragmentMainBinding;
 import com.llg.chatweather.view.MainActivity;
+import com.llg.chatweather.view.adapter.CityViewPagerAdapter;
 import com.llg.chatweather.viewmodel.WeatherViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * create by loogen on 2019-3-29
@@ -26,6 +32,9 @@ public class MainFragment extends BaseFragment {
     private MainActivity mActivity;
 
     private Toolbar mToolbar;
+
+    private ViewPager mViewPager;
+    private CityViewPagerAdapter pagerAdapter;
 
     public static MainFragment newInstance() {
         Bundle args = new Bundle();
@@ -45,6 +54,7 @@ public class MainFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mToolbar = mBindingView.getRoot().findViewById(R.id.toolbar);
+        mViewPager = mBindingView.getRoot().findViewById(R.id.view_pager);
         ImmersionBar.setTitleBar(mActivity, mToolbar);
       //  setUpBar();
     }
@@ -73,13 +83,21 @@ public class MainFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         WeatherViewModel weatherViewModel = new WeatherViewModel(mActivity);
         mBindingView.setWeatherviewmodel(weatherViewModel);
+
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(CityFragment.newInstance());
+        fragments.add(CityFragment.newInstance());
+        fragments.add(CityFragment.newInstance());
+        pagerAdapter = new CityViewPagerAdapter(getChildFragmentManager(),fragments);
+        mViewPager.setAdapter(pagerAdapter);
     }
 
 
     @Override
     public void initImmersionBar() {
                 ImmersionBar.with(this)
-                .transparentBar()
+                .transparentBar().autoDarkModeEnable(true)
                 .init();
     }
 }

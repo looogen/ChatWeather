@@ -1,13 +1,10 @@
 package com.llg.chatweather.http;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.llg.chatweather.bean.BaseBean;
 import com.llg.chatweather.bean.DailyResultBean;
 import com.llg.chatweather.bean.NowResultsBean;
 
 import io.reactivex.Observable;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
