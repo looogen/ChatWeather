@@ -11,6 +11,7 @@ import com.llg.chatweather.http.RetrofitRequestService;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -22,10 +23,10 @@ public class WeatherModel {
     private static final String TAG = "WeatherModel";
     private WeatherDataInterface mWeatherDataInterface;
     private RetrofitRequestInferface mRequestInferface;
-    private BaseActivity mActivity;
+    private CompositeDisposable mCompositeDisposable;
 
-    public WeatherModel(BaseActivity mActivity) {
-        this.mActivity = mActivity;
+    public WeatherModel(CompositeDisposable compositeDisposable) {
+        mCompositeDisposable = compositeDisposable;
         mRequestInferface =  RetrofitRequestService.getInstance().getService();
     }
 
@@ -54,7 +55,7 @@ public class WeatherModel {
                         }
                     }
                 });
-        mActivity.mCompositeDisposable.add(disposable);
+        mCompositeDisposable.add(disposable);
     }
 
 

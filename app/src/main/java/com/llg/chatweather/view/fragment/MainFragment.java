@@ -83,8 +83,6 @@ public class MainFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         WeatherViewModel weatherViewModel = new WeatherViewModel(mActivity);
         mBindingView.setWeatherviewmodel(weatherViewModel);
-
-
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(CityFragment.newInstance());
         fragments.add(CityFragment.newInstance());
@@ -92,7 +90,6 @@ public class MainFragment extends BaseFragment {
         pagerAdapter = new CityViewPagerAdapter(getChildFragmentManager(),fragments);
         mViewPager.setAdapter(pagerAdapter);
     }
-
 
     @Override
     public void initImmersionBar() {

@@ -8,10 +8,15 @@ import android.support.v4.app.Fragment;
 import com.gyf.immersionbar.components.SimpleImmersionOwner;
 import com.gyf.immersionbar.components.SimpleImmersionProxy;
 
+import io.reactivex.disposables.CompositeDisposable;
+
 /**
  * create by loogen on 2019-4-17
  */
 public abstract class BaseFragment extends Fragment implements SimpleImmersionOwner {
+
+
+    public final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * ImmersionBar代理类
@@ -33,6 +38,7 @@ public abstract class BaseFragment extends Fragment implements SimpleImmersionOw
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mCompositeDisposable.dispose();
         mSimpleImmersionProxy.onDestroy();
     }
 
@@ -52,4 +58,5 @@ public abstract class BaseFragment extends Fragment implements SimpleImmersionOw
     public boolean immersionBarEnabled() {
         return true;
     }
+
 }

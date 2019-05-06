@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     public final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private static final String  TAG = "BaseActivity";
+    private static final String TAG = BaseActivity.class.getSimpleName();
 
 
     @Override

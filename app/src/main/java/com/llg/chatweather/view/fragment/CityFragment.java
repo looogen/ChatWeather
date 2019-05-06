@@ -4,20 +4,18 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.llg.chatweather.R;
 import com.llg.chatweather.databinding.FragmentCityBinding;
-import com.llg.chatweather.view.BaseActivity;
 import com.llg.chatweather.viewmodel.WeatherViewModel;
 
 /**
  * create by loogen on 2019-4-29
  */
-public class CityFragment extends Fragment {
+public class CityFragment extends BaseFragment {
 
     private FragmentCityBinding mBinding;
     private boolean isViewCreated = false;
@@ -28,6 +26,7 @@ public class CityFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Nullable
     @Override
@@ -43,10 +42,27 @@ public class CityFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isViewCreated){
-            mBinding.setWeatherviewmodel(new WeatherViewModel((BaseActivity) getActivity()));
+            WeatherViewModel viewModel = new WeatherViewModel(this);
+            mBinding.setWeatherviewmodel(viewModel);
+            viewModel.requestData();
         }
+    }
+
+    @Override
+    public void initImmersionBar() {
+
+    }
+
+    @Override
+    public boolean immersionBarEnabled() {
+        return false;
     }
 }
