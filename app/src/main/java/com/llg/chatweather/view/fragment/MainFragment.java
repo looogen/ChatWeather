@@ -84,11 +84,12 @@ public class MainFragment extends BaseFragment {
         WeatherViewModel weatherViewModel = new WeatherViewModel(mActivity);
         mBindingView.setWeatherviewmodel(weatherViewModel);
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(CityFragment.newInstance());
-        fragments.add(CityFragment.newInstance());
-        fragments.add(CityFragment.newInstance());
+        fragments.add(CityFragment.newInstance("zhuhai"));
+        fragments.add(CityFragment.newInstance("beijing"));
+        fragments.add(CityFragment.newInstance("guangzhou"));
         pagerAdapter = new CityViewPagerAdapter(getChildFragmentManager(),fragments);
         mViewPager.setAdapter(pagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class WeatherModel {
                 .subscribe(new Consumer<BaseBean<NowResultsBean>>() {
                     @Override
                     public void accept(BaseBean<NowResultsBean> NowResultsBean) throws Exception {
-                        Log.e(TAG, NowResultsBean.getResults().get(0).toString());
+//                        Log.e(TAG, NowResultsBean.getResults().get(0).toString());
                         if (mWeatherDataInterface != null){
                             mWeatherDataInterface.showNowWeatherData(NowResultsBean);
                         }

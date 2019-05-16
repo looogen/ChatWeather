@@ -15,6 +15,8 @@ import com.llg.chatweather.view.fragment.BaseFragment;
  * create by loogen on 2019-3-28
  */
 public class WeatherViewModel extends BaseObservable implements WeatherDataInterface {
+    private static final String TAG = WeatherViewModel.class.getSimpleName();
+
     public final ObservableField<String> city = new ObservableField<>("-- --");
     public final ObservableField<String> temperature = new ObservableField<>("NaN");
     public final ObservableField<String> weather = new ObservableField<>("--");
@@ -29,8 +31,8 @@ public class WeatherViewModel extends BaseObservable implements WeatherDataInter
         model = new WeatherModel(fragment.mCompositeDisposable);
         model.setmWeatherDataInterface(this);
     }
-    public void requestData() {
-        model.getNowWeatherData("zhuhai","zh-Hans","");
+    public void requestData(String location) {
+        model.getNowWeatherData(location,"zh-Hans","");
     }
 
     @Override

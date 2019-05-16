@@ -17,11 +17,16 @@ import com.llg.chatweather.viewmodel.WeatherViewModel;
  */
 public class CityFragment extends BaseFragment {
 
+    private static final String KEY_LOCATION = "location";
+
     private FragmentCityBinding mBinding;
     private boolean isViewCreated = false;
 
-    public static CityFragment newInstance() {
+    private boolean isLazyLoad = false; //是否已经懒加载
+
+    public static CityFragment newInstance(String location) {
         Bundle args = new Bundle();
+        args.putString(KEY_LOCATION,location);
         CityFragment fragment = new CityFragment();
         fragment.setArguments(args);
         return fragment;
@@ -49,10 +54,12 @@ public class CityFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isViewCreated){
+        if (isViewCreated && !isLazyLoad){
             WeatherViewModel viewModel = new WeatherViewModel(this);
             mBinding.setWeatherviewmodel(viewModel);
-            viewModel.requestData();
+            String location = getArguments().getString(KEY_LOCATION);
+            viewModel.requestData(location);
+            isLazyLoad = true;
         }
     }
 

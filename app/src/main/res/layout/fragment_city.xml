@@ -35,7 +35,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="6dp"
                 android:gravity="center"
-                android:text="@{weatherviewmodel.weather}"
+                android:text="@{weatherviewmodel.city}"
                 android:textSize="20sp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
