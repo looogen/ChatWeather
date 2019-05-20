@@ -18,6 +18,8 @@ public abstract class BaseFragment extends Fragment implements SimpleImmersionOw
 
     public final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
+    protected static final String TAG = BaseFragment.class.getSimpleName();
+
     /**
      * ImmersionBar代理类
      */

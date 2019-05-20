@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,13 @@ public class CityFragment extends BaseFragment {
     private static final String KEY_LOCATION = "location";
 
     private FragmentCityBinding mBinding;
-    private boolean isViewCreated = false;
 
-    private boolean isLazyLoad = false; //是否已经懒加载
+    private boolean isLazyLoad; //是否已经懒加载
+    private boolean isReplaceFragment;
+    private boolean isFragmentVisible;
+
+    private View mRootView;
+
 
     public static CityFragment newInstance(String location) {
         Bundle args = new Bundle();
@@ -32,35 +37,58 @@ public class CityFragment extends BaseFragment {
         return fragment;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_city,container,false);
-        return mBinding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        isViewCreated = true;
+        if (mRootView == null) {
+            mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_city,container,false);
+            mRootView = mBinding.getRoot();
+        }
+        ViewGroup parent = (ViewGroup) mRootView.getParent();
+        if (parent != null) {
+            parent.removeView(mRootView);
+        }
+        return mRootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.e(TAG, "onActivityCreated: ");
+        if (isReplaceFragment) {
+            if (isFragmentVisible) {
+                initLazyLoad();
+            }
+        }else {
+            initLazyLoad();
+        }
+    }
+
+    private void initLazyLoad() {
+        WeatherViewModel viewModel = new WeatherViewModel(this);
+        mBinding.setWeatherviewmodel(viewModel);
+        String location = getArguments().getString(KEY_LOCATION);
+        viewModel.requestData(location);
+        isLazyLoad = true;
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.e(TAG, "setUserVisibleHint: ");
         super.setUserVisibleHint(isVisibleToUser);
-        if (isViewCreated && !isLazyLoad){
-            WeatherViewModel viewModel = new WeatherViewModel(this);
-            mBinding.setWeatherviewmodel(viewModel);
-            String location = getArguments().getString(KEY_LOCATION);
-            viewModel.requestData(location);
-            isLazyLoad = true;
+        this.isReplaceFragment = true;
+        this.isFragmentVisible = isVisibleToUser;
+        if (isVisibleToUser && mRootView != null) {
+            if (!isLazyLoad) {
+                initLazyLoad();
+            }else {
+                // 从不可见到可见
+                onRestart();
+            }
         }
+    }
+
+    private void onRestart() {
     }
 
     @Override
