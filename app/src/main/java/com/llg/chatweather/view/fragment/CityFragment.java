@@ -28,6 +28,8 @@ public class CityFragment extends BaseFragment {
 
     private View mRootView;
 
+    private WeatherViewModel viewModel;
+
 
     public static CityFragment newInstance(String location) {
         Bundle args = new Bundle();
@@ -40,6 +42,7 @@ public class CityFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView: ");
         if (mRootView == null) {
             mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_city,container,false);
             mRootView = mBinding.getRoot();
@@ -49,6 +52,14 @@ public class CityFragment extends BaseFragment {
             parent.removeView(mRootView);
         }
         return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onViewCreated: ");
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = new WeatherViewModel(this);
+        mBinding.setWeatherviewmodel(viewModel);
     }
 
     @Override
@@ -65,11 +76,10 @@ public class CityFragment extends BaseFragment {
     }
 
     private void initLazyLoad() {
-        WeatherViewModel viewModel = new WeatherViewModel(this);
-        mBinding.setWeatherviewmodel(viewModel);
         String location = getArguments().getString(KEY_LOCATION);
         viewModel.requestData(location);
         isLazyLoad = true;
+        updateParentUI();
     }
 
     @Override
@@ -84,11 +94,19 @@ public class CityFragment extends BaseFragment {
             }else {
                 // 从不可见到可见
                 onRestart();
+                updateParentUI();
             }
         }
     }
 
+    //更新父级的UI
+    private void updateParentUI() {
+        MainFragment fragment = (MainFragment) getParentFragment();
+        fragment.setViewModel(viewModel);
+    }
+
     private void onRestart() {
+
     }
 
     @Override

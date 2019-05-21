@@ -2,17 +2,15 @@ package com.llg.chatweather.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.llg.chatweather.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,34 +19,32 @@ import java.util.concurrent.TimeUnit;
 /**
  * create by loogen on 2019-4-9
  */
-public  class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public abstract class BaseWeatherView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private SurfaceHolder mHolder;
-    private Canvas mCanvas;
     private boolean isNeedDrawing;
 
-    private List<RainLine> mRainLines = new ArrayList<>();
+    protected List<BaseLine> mLines = new ArrayList<>();
+    protected Paint mLinePaint = new Paint();
 
-    private Paint mPaint = new Paint();
 
-
-    public MySurfaceView(Context context) {
+    public BaseWeatherView(Context context) {
         super(context);
         init(context);
     }
 
-    public MySurfaceView(Context context, AttributeSet attrs) {
+    public BaseWeatherView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public MySurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BaseWeatherView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MySurfaceView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BaseWeatherView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -58,20 +54,15 @@ public  class MySurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         mHolder.addCallback(this);
         mHolder.setFormat(PixelFormat.TRANSLUCENT); // 顶层绘制SurfaceView设成透明
 
-
         setFocusable(true);
         setFocusableInTouchMode(true);
 
+        //获取可以绘制的大小
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);
         randomLine(rect.width(), rect.height());
 
-
-       // initLinePaint(mPaint);
-
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth(4);
+        initLinePaint(mLinePaint);
     }
 
     @Override
@@ -94,10 +85,10 @@ public  class MySurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     public void run() {
         while (isNeedDrawing) {
             try {
-                mCanvas = mHolder.lockCanvas();
-                mCanvas.drawColor(getResources().getColor(R.color.sky));
-                drawRain(mCanvas);
-                changeRain();
+                Canvas mCanvas = mHolder.lockCanvas();
+                mCanvas.drawColor(setBackGround());
+                drawLine(mCanvas);
+                changeLine();
                 mHolder.unlockCanvasAndPost(mCanvas);
                 TimeUnit.MICROSECONDS.sleep(30);
             } catch (Exception e) {
@@ -106,28 +97,19 @@ public  class MySurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         }
     }
 
-    private void changeRain() {
-        for (RainLine line : mRainLines) {
+    private void changeLine() {
+        for (BaseLine line : mLines) {
             line.change();
         }
     }
 
-    private void drawRain(Canvas canvas) {
-        for (RainLine line : mRainLines) {
-            int x = line.getmStartX();
-            int y = line.getmStartY();
-            canvas.drawLine(x,y,x,y+30,mPaint);
-        }
-    }
+    protected abstract @ColorInt int setBackGround();
 
+    protected abstract void drawLine(Canvas canvas);
 
-    private void randomLine(int maxX, int maxY) {
-        for (int i = 0; i < 60; i++) {
-            RainLine rainLine = new RainLine(maxX, maxY);
-            mRainLines.add(rainLine);
-        }
-    }
+    //随机生成点或者线
+    protected abstract void randomLine(int maxX, int maxY);
 
-
-//    protected abstract void initLinePaint(Paint paint);
+    //初始点或者线的画笔
+    protected abstract void initLinePaint(Paint paint);
 }

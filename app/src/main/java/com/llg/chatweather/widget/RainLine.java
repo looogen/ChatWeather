@@ -1,30 +1,16 @@
 package com.llg.chatweather.widget;
 
-import java.util.Random;
-
 /**
  * create by loogen on 2019-4-9
  */
-public class RainLine {
-    private int mStartX;
-    private int mStartY;
-
-    private int mMaxX;
-    private int mMaxY;
-
-    private int mDy = 10;
-
-    private Random mRandom;
+public class RainLine extends BaseLine {
 
     public RainLine(int maxX, int maxY) {
-        mMaxX = maxX;
-        mMaxY = maxY;
-        mRandom = new Random();
-        mStartX = mRandom.nextInt(maxX);
-        mStartY = mRandom.nextInt(maxY);
+        super(maxX, maxY);
     }
 
-    public void change() {
+    @Override
+    protected void change() {
         if (mStartY + mDy > mMaxY) {
             mStartY = 0;
             //一次下落后随机改变x坐标
@@ -32,13 +18,5 @@ public class RainLine {
         } else {
             mStartY += mDy;
         }
-    }
-
-    public int getmStartX() {
-        return mStartX;
-    }
-
-    public int getmStartY() {
-        return mStartY;
     }
 }

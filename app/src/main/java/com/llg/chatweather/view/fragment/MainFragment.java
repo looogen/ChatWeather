@@ -98,4 +98,10 @@ public class MainFragment extends BaseFragment {
                 .transparentBar().autoDarkModeEnable(true)
                 .init();
     }
+
+    public void setViewModel(WeatherViewModel viewModel){
+        mBindingView.setWeatherviewmodel(viewModel);
+    }
+
+
 }
