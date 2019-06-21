@@ -5,5 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="sky">#3F51B5</color>
+
+    <color name="rain_bg">#767676</color>
+    <color name="sunny_bg">#03A9F4</color>
+    <color name="sun">#FFC107</color>
 </resources>

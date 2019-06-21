@@ -1,10 +1,9 @@
-package com.llg.chatweather.widget;
+package com.llg.chatweather.widget.animview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 /**
@@ -15,6 +14,8 @@ import android.widget.FrameLayout;
 public class SkyView extends FrameLayout {
 
     private Context mContext;
+
+    private AnimView mAnimView;
 
     private static final String TAG = SkyView.class.getSimpleName();
 
@@ -29,27 +30,37 @@ public class SkyView extends FrameLayout {
     public SkyView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
+        mAnimView= new AnimView(mContext);
+        addView(mAnimView);
     }
 
+    private int preWeatherCode = -1;
+
+
+    private BaseDraw mBaseDraw;
     public void setWeatherCode(String weatherCode) {
         if (weatherCode == null) {
             return;
         }
-        Log.e(TAG, "setWeatherCode: " + weatherCode);
         int code = Integer.parseInt(weatherCode);
+        if (code == preWeatherCode){
+           // return;
+        }
         if (code >= 0 && code <= 3) {
             //晴天
-        } else if (code > 3 && code <= 9) {
+        } else if (code > 3 && code < 9) {
             //多云
-        } else if (code > 9 && code <= 18) {
-
+            mBaseDraw = new SunnyDraw(mContext);
+        } else if (code == 9){
+            //阴
+            mBaseDraw = new RainDraw(mContext);
+        }else if (code > 9 && code <= 18) {
+            //
         } else if (code > 18 && code <= 24) {
             //雪
         }
-        //雨
-        removeAllViews();
-        RainView rainView = new RainView(mContext);
-        addView(rainView);
+        mAnimView.setAnimInterface(mBaseDraw);
+        preWeatherCode = code;
     }
 
 }

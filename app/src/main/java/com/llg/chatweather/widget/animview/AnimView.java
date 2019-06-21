@@ -1,13 +1,9 @@
-package com.llg.chatweather.widget;
+package com.llg.chatweather.widget.animview;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
-import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -19,33 +15,36 @@ import java.util.concurrent.TimeUnit;
 /**
  * create by loogen on 2019-4-9
  */
-public abstract class BaseWeatherView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private SurfaceHolder mHolder;
     private boolean isNeedDrawing;
 
+    private DrawAnimInterface mAnimInterface;
+
+
     protected List<BaseLine> mLines = new ArrayList<>();
-    protected Paint mLinePaint = new Paint();
 
+    //可绘制的区域
+    private int mDrawWidth;
+    private int mDrawHeight;
 
-    public BaseWeatherView(Context context) {
+    public void setAnimInterface(DrawAnimInterface animInterface) {
+        this.mAnimInterface = animInterface;
+    }
+
+    public AnimView(Context context) {
         super(context);
         init(context);
     }
 
-    public BaseWeatherView(Context context, AttributeSet attrs) {
+    public AnimView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public BaseWeatherView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AnimView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BaseWeatherView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
@@ -53,16 +52,14 @@ public abstract class BaseWeatherView extends SurfaceView implements SurfaceHold
         mHolder = getHolder();
         mHolder.addCallback(this);
         mHolder.setFormat(PixelFormat.TRANSLUCENT); // 顶层绘制SurfaceView设成透明
-
         setFocusable(true);
         setFocusableInTouchMode(true);
 
-        //获取可以绘制的大小
+        //获取可以绘制的区域大小
         Rect rect = new Rect();
         getWindowVisibleDisplayFrame(rect);
-        randomLine(rect.width(), rect.height());
-
-        initLinePaint(mLinePaint);
+        mDrawWidth = rect.width();
+        mDrawHeight = rect.height();
     }
 
     @Override
@@ -81,35 +78,29 @@ public abstract class BaseWeatherView extends SurfaceView implements SurfaceHold
         isNeedDrawing = false;
     }
 
+
+    private Canvas mCanvas;
+
     @Override
     public void run() {
         while (isNeedDrawing) {
             try {
-                Canvas mCanvas = mHolder.lockCanvas();
-                mCanvas.drawColor(setBackGround());
-                drawLine(mCanvas);
-                changeLine();
-                mHolder.unlockCanvasAndPost(mCanvas);
-                TimeUnit.MICROSECONDS.sleep(30);
+                if (mAnimInterface != null){
+                    mCanvas = mHolder.lockCanvas();
+                    mAnimInterface.drawGraph(mCanvas,mDrawWidth,mDrawHeight);
+                }
+                TimeUnit.MICROSECONDS.sleep(50);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (mCanvas != null) {
+                    mHolder.unlockCanvasAndPost(mCanvas);
+                }
             }
         }
     }
 
-    private void changeLine() {
-        for (BaseLine line : mLines) {
-            line.change();
-        }
+    public void callStop() {
+        isNeedDrawing = false;
     }
-
-    protected abstract @ColorInt int setBackGround();
-
-    protected abstract void drawLine(Canvas canvas);
-
-    //随机生成点或者线
-    protected abstract void randomLine(int maxX, int maxY);
-
-    //初始点或者线的画笔
-    protected abstract void initLinePaint(Paint paint);
 }

@@ -1,4 +1,4 @@
-package com.llg.chatweather.widget;
+package com.llg.chatweather.widget.animview;
 
 import java.util.Random;
 

@@ -86,7 +86,7 @@ public class MainFragment extends BaseFragment {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(CityFragment.newInstance("zhuhai"));
         fragments.add(CityFragment.newInstance("beijing"));
-        fragments.add(CityFragment.newInstance("guangzhou"));
+        fragments.add(CityFragment.newInstance("dali"));
         pagerAdapter = new CityViewPagerAdapter(getChildFragmentManager(),fragments);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setOffscreenPageLimit(3);

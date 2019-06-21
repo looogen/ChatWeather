@@ -1,4 +1,4 @@
-package com.llg.chatweather.widget;
+package com.llg.chatweather.widget.animview;
 
 /**
  * create by loogen on 2019-4-9

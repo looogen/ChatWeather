@@ -13,19 +13,11 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!--<FrameLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
-            <!--<com.llg.chatweather.widget.MySurfaceView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-        <!--</FrameLayout>-->
-        <com.llg.chatweather.widget.SkyView
+        <com.llg.chatweather.widget.animview.SkyView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:weatherCode="@{weatherviewmodel.weatherCode}">
-        </com.llg.chatweather.widget.SkyView>
+        </com.llg.chatweather.widget.animview.SkyView>
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
