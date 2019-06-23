@@ -6,6 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.llg.chatweather.R;
+import com.llg.chatweather.widget.animview.lines.BaseLine;
+import com.llg.chatweather.widget.animview.lines.RainLine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * create by loogen on 2019-5-21
@@ -16,6 +21,7 @@ public class RainDraw extends BaseDraw  {
 
     protected Paint mPaint;
 
+    protected List<BaseLine> mLines = new ArrayList<>();
 
     public RainDraw(Context context){
         mContext = context;
@@ -44,11 +50,18 @@ public class RainDraw extends BaseDraw  {
     }
 
     @Override
-    void randomLine(int maxX, int maxY) {
+    void generateLine(int maxX, int maxY) {
         mLines.clear();
         for (int i = 0; i < 60; i++) {
             RainLine rainLine = new RainLine(maxX, maxY);
             mLines.add(rainLine);
+        }
+    }
+
+    @Override
+    void changeData() {
+        for (BaseLine line : mLines) {
+            line.change();
         }
     }
 }

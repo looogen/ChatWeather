@@ -1,4 +1,4 @@
-package com.llg.chatweather.widget.animview;
+package com.llg.chatweather.widget.animview.lines;
 
 /**
  * create by loogen on 2019-4-9
@@ -10,7 +10,7 @@ public class RainLine extends BaseLine {
     }
 
     @Override
-    protected void change() {
+    public void change() {
         if (mStartY + mDy > mMaxY) {
             mStartY = 0;
             //一次下落后随机改变x坐标

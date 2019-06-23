@@ -1,4 +1,4 @@
-package com.llg.chatweather.widget.animview;
+package com.llg.chatweather.widget.animview.lines;
 
 import java.util.Random;
 
@@ -6,9 +6,12 @@ import java.util.Random;
  * create by loogen on 2019-5-21
  */
 public abstract class BaseLine {
+
+    //起始点
     protected int mStartX;
     protected int mStartY;
 
+    //最大的范围
     protected int mMaxX;
     protected int mMaxY;
 
@@ -24,7 +27,7 @@ public abstract class BaseLine {
         mStartY = mRandom.nextInt(maxY);
     }
 
-    protected abstract void change();
+    public abstract void change();
 
     public int getmStartX() {
         return mStartX;
