@@ -6,16 +6,39 @@ import android.graphics.Point;
  * Created by leelugen
  */
 public class SunnyLine {
-    private Point mStartPoint;
-    private Point mEndPoint;
+    private int sx;
+    private int sy;
+    private int ex;
+    private int ey;
 
-     public SunnyLine(int sX,int sY,int eX,int eY){
-         mStartPoint = new Point(sX,sX);
-         mEndPoint = new Point(eX,eY);
-     }
+    public SunnyLine(int sx, int sy, int ex, int ey) {
+        this.sx = sx;
+        this.sy = sy;
+        this.ex = ex;
+        this.ey = ey;
+    }
 
-    public SunnyLine(int index){
-         mStartPoint = new Point(0,index);
-         mEndPoint = new Point(index,0);
+    public int getSx() {
+        return sx;
+    }
+
+    public int getSy() {
+        return sy;
+    }
+
+    public int getEx() {
+        return ex;
+    }
+
+    public int getEy() {
+        return ey;
+    }
+
+
+    public void setLine(int sx,int sy,int ex,int ey){
+        this.sx = sx;
+        this.sy = sy;
+        this.ex = ex;
+        this.ey = ey;
     }
 }

@@ -91,7 +91,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
                     mCanvas = mHolder.lockCanvas();
                     mAnimInterface.drawGraph(mCanvas,mDrawWidth,mDrawHeight);
                 }
-                TimeUnit.MICROSECONDS.sleep(50);
+                TimeUnit.MILLISECONDS.sleep(mAnimInterface.setAnimDuration());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -64,4 +64,9 @@ public class RainDraw extends BaseDraw  {
             line.change();
         }
     }
+
+    @Override
+    public long setAnimDuration() {
+        return 300;
+    }
 }

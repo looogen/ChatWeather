@@ -2,6 +2,8 @@ package com.llg.chatweather.widget.animview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 
 import com.llg.chatweather.R;
@@ -12,13 +14,13 @@ import java.util.List;
 
 /**
  * create by loogen on 2019-6-21
- *
- *
  * 晴天
  */
+
 public class SunnyDraw extends BaseDraw {
     private Context mContext;
-    private Paint mPaint;
+    private Paint mSunPaint;
+    private Paint mLinePaint = new Paint();
 
     private List<SunnyLine> mSunnyLines;
 
@@ -29,9 +31,13 @@ public class SunnyDraw extends BaseDraw {
     }
 
     private void initPaint() {
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(mContext.getResources().getColor(R.color.sun));
+        mSunPaint = new Paint();
+        mSunPaint.setAntiAlias(true);
+        mSunPaint.setColor(mContext.getResources().getColor(R.color.sun));
+        mSunPaint.setStrokeWidth(4);
+        mLinePaint.setAntiAlias(true);
+        mLinePaint.setStrokeWidth(6);
+        mLinePaint.setColor(Color.YELLOW);
     }
 
     @Override
@@ -41,20 +47,52 @@ public class SunnyDraw extends BaseDraw {
 
     @Override
     void drawAnim(Canvas canvas) {
-
+        canvas.drawCircle(cx,cy,radius,mSunPaint);
+        for (SunnyLine line:mSunnyLines){
+            canvas.drawLine(line.getSx(),line.getSy(),line.getEx(),line.getEy(),mLinePaint);
+        }
     }
+
+    private int cx;
+    private int cy;
+    private int radius;
+    private static final int sunlines = 10;
+    private double radian;
 
     @Override
     void generateLine(int w, int h) {
-        int size = w/5;
+        cx = w/2;
+        cy = h/4;
+        radius = w/8;
         mSunnyLines.clear();
-        for(int i = 0;i<4;i++){
-            mSunnyLines.add(new SunnyLine(size*i));
+        radian = 2*Math.PI/sunlines;
+        for(int i = 0;i<sunlines;i++){
+            int sx = (int) (cx + (radius+3)*Math.cos(radian*i));
+            int sy = (int) (cy + (radius+3)*Math.sin(radian*i));
+            int ex = (int) (sx+ (radius+3)*Math.cos(radian*i));
+            int ey = (int) (sy+ (radius+3)*Math.sin(radian*i));
+            mSunnyLines.add(new SunnyLine(sx,sy,ex,ey));
+        }
+    }
+
+    private int j = 0;
+    @Override
+    void changeData() {
+        if (j++ >= 20){
+            j = 0;
+        }
+        for(int i = 0;i<sunlines;i++){
+            SunnyLine line = mSunnyLines.get(i);
+            int sx = (int) (cx + (radius+3)*Math.cos((radian*i+Math.PI/18*j)%(2*Math.PI)));
+            int sy = (int) (cy + (radius+3)*Math.sin((radian*i+Math.PI/18*j)%(2*Math.PI)));
+            int ex = (int) (sx+ (radius+3)*Math.cos((radian*i+Math.PI/18*j)%(2*Math.PI)));
+            int ey = (int) (sy+ (radius+3)*Math.sin((radian*i+Math.PI/18*j)%(2*Math.PI)));
+            line.setLine(sx,sy,ex,ey);
         }
     }
 
     @Override
-    void changeData() {
-
+    public long setAnimDuration() {
+        return 500;
     }
 }

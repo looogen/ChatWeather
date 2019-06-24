@@ -44,10 +44,11 @@ public class SkyView extends FrameLayout {
         }
         int code = Integer.parseInt(weatherCode);
         if (code == preWeatherCode){
-           // return;
+            return;
         }
         if (code >= 0 && code <= 3) {
             //晴天
+            mBaseDraw = new SunnyDraw(mContext);
         } else if (code > 3 && code < 9) {
             //多云
             mBaseDraw = new SunnyDraw(mContext);
@@ -56,8 +57,11 @@ public class SkyView extends FrameLayout {
             mBaseDraw = new RainDraw(mContext);
         }else if (code > 9 && code <= 18) {
             //
+            mBaseDraw = new RainDraw(mContext);
         } else if (code > 18 && code <= 24) {
             //雪
+        }else {
+            mBaseDraw = new RainDraw(mContext);
         }
         mAnimView.setAnimInterface(mBaseDraw);
         preWeatherCode = code;
