@@ -15,8 +15,6 @@ public abstract class BaseLine {
     protected int mMaxX;
     protected int mMaxY;
 
-    protected int mDy = 10;
-
     protected Random mRandom;
 
     public BaseLine(int maxX, int maxY) {

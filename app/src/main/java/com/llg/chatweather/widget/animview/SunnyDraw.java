@@ -3,7 +3,6 @@ package com.llg.chatweather.widget.animview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 
 import com.llg.chatweather.R;
@@ -41,12 +40,12 @@ public class SunnyDraw extends BaseDraw {
     }
 
     @Override
-    int setBackGround() {
+    protected int setBackGround() {
         return mContext.getResources().getColor(R.color.sunny_bg);
     }
 
     @Override
-    void drawAnim(Canvas canvas) {
+    protected void drawAnim(Canvas canvas) {
         canvas.drawCircle(cx,cy,radius,mSunPaint);
         for (SunnyLine line:mSunnyLines){
             canvas.drawLine(line.getSx(),line.getSy(),line.getEx(),line.getEy(),mLinePaint);
@@ -56,6 +55,7 @@ public class SunnyDraw extends BaseDraw {
     private int cx;
     private int cy;
     private int radius;
+    //太阳线数目
     private static final int sunlines = 10;
     private double radian;
 
@@ -92,7 +92,7 @@ public class SunnyDraw extends BaseDraw {
     }
 
     @Override
-    public long setAnimDuration() {
-        return 500;
+    public long getAnimDuration() {
+        return 100;
     }
 }

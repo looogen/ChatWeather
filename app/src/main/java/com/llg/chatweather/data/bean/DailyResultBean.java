@@ -1,4 +1,6 @@
-package com.llg.chatweather.bean;
+package com.llg.chatweather.data.bean;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -13,7 +15,8 @@ public class DailyResultBean {
      */
 
     private LocationBean location;
-    private String last_update;
+    @SerializedName("last_update")
+    private String lastUpdate;
     private List<DailyBean> daily;
 
     public LocationBean getLocation() {
@@ -25,11 +28,11 @@ public class DailyResultBean {
     }
 
     public String getLast_update() {
-        return last_update;
+        return lastUpdate;
     }
 
-    public void setLast_update(String last_update) {
-        this.last_update = last_update;
+    public void setLast_update(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public List<DailyBean> getDaily() {
@@ -55,7 +58,8 @@ public class DailyResultBean {
         private String country;
         private String path;
         private String timezone;
-        private String timezone_offset;
+        @SerializedName("timezone_offset")
+        private String timezoneOffset;
 
         public String getId() {
             return id;
@@ -97,12 +101,12 @@ public class DailyResultBean {
             this.timezone = timezone;
         }
 
-        public String getTimezone_offset() {
-            return timezone_offset;
+        public String getTimezoneOffset() {
+            return timezoneOffset;
         }
 
-        public void setTimezone_offset(String timezone_offset) {
-            this.timezone_offset = timezone_offset;
+        public void setTimezoneOffset(String timezoneOffset) {
+            this.timezoneOffset = timezoneOffset;
         }
     }
 

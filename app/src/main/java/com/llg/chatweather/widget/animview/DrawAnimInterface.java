@@ -7,5 +7,5 @@ import android.graphics.Canvas;
  */
 public interface DrawAnimInterface {
     void drawGraph(Canvas canvas,int width,int height);
-    long setAnimDuration();
+    long getAnimDuration();
 }

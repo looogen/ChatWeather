@@ -1,7 +1,9 @@
 package com.llg.chatweather.widget.animview;
 
 import android.graphics.Canvas;
-import android.support.annotation.ColorInt;
+
+import androidx.annotation.ColorInt;
+
 /**
  * create by loogen on 2019-6-21
  */
@@ -18,8 +20,9 @@ public abstract class BaseDraw implements DrawAnimInterface {
         changeData();
     }
 
-    abstract @ColorInt int setBackGround();
-    abstract void drawAnim(Canvas canvas);
+    protected abstract @ColorInt
+    int setBackGround();
+    protected abstract void drawAnim(Canvas canvas);
     abstract void generateLine(int w, int h);
     abstract void changeData();
 }

@@ -1,4 +1,4 @@
-package com.llg.chatweather.bean;
+package com.llg.chatweather.data.bean;
 
 /**
  * create by loogen on 2019-3-21
@@ -126,7 +126,7 @@ public class NowResultsBean {
          */
 
         private String text;
-        private String code;
+        private int code;
         private String temperature;
         private String feels_like;
         private String pressure;
@@ -147,11 +147,11 @@ public class NowResultsBean {
             this.text = text;
         }
 
-        public String getCode() {
+        public int getCode() {
             return code;
         }
 
-        public void setCode(String code) {
+        public void setCode(int code) {
             this.code = code;
         }
 

@@ -1,10 +1,11 @@
 package com.llg.chatweather.widget.animview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * 天气动态背景
@@ -38,17 +39,13 @@ public class SkyView extends FrameLayout {
 
 
     private BaseDraw mBaseDraw;
-    public void setWeatherCode(String weatherCode) {
-        if (weatherCode == null) {
-            return;
-        }
-        int code = Integer.parseInt(weatherCode);
+    public void setWeatherCode(int code) {
         if (code == preWeatherCode){
             return;
         }
         if (code >= 0 && code <= 3) {
             //晴天
-            mBaseDraw = new SunnyDraw(mContext);
+            mBaseDraw = new RainDraw(mContext);
         } else if (code > 3 && code < 9) {
             //多云
             mBaseDraw = new SunnyDraw(mContext);
@@ -63,6 +60,7 @@ public class SkyView extends FrameLayout {
         }else {
             mBaseDraw = new RainDraw(mContext);
         }
+        mAnimView.clearAnimation();
         mAnimView.setAnimInterface(mBaseDraw);
         preWeatherCode = code;
     }

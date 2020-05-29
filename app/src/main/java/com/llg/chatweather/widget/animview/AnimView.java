@@ -5,27 +5,22 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.llg.chatweather.widget.animview.lines.BaseLine;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
  * create by loogen on 2019-4-9
  */
 public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    private static final String TAG = "AnimView";
 
     private SurfaceHolder mHolder;
     private boolean isNeedDrawing;
 
     private DrawAnimInterface mAnimInterface;
-
-
-    protected List<BaseLine> mLines = new ArrayList<>();
 
     //可绘制的区域
     private int mDrawWidth;
@@ -53,7 +48,8 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
     private void init(Context context) {
         mHolder = getHolder();
         mHolder.addCallback(this);
-        mHolder.setFormat(PixelFormat.TRANSLUCENT); // 顶层绘制SurfaceView设成透明
+        // 顶层绘制SurfaceView设成透明
+        mHolder.setFormat(PixelFormat.TRANSLUCENT);
         setFocusable(true);
         setFocusableInTouchMode(true);
 
@@ -72,14 +68,13 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        Log.e(TAG, "surfaceChanged: " );
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         isNeedDrawing = false;
     }
-
 
     private Canvas mCanvas;
 
@@ -91,7 +86,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
                     mCanvas = mHolder.lockCanvas();
                     mAnimInterface.drawGraph(mCanvas,mDrawWidth,mDrawHeight);
                 }
-                TimeUnit.MILLISECONDS.sleep(mAnimInterface.setAnimDuration());
+                TimeUnit.MILLISECONDS.sleep(mAnimInterface.getAnimDuration());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -1,8 +1,8 @@
 package com.llg.chatweather.http;
 
-import com.llg.chatweather.bean.BaseBean;
-import com.llg.chatweather.bean.DailyResultBean;
-import com.llg.chatweather.bean.NowResultsBean;
+import com.llg.chatweather.data.bean.BaseBean;
+import com.llg.chatweather.data.bean.DailyResultBean;
+import com.llg.chatweather.data.bean.NowResultsBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

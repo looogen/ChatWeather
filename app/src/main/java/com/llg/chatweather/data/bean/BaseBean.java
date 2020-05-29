@@ -1,14 +1,19 @@
-package com.llg.chatweather.bean;
+package com.llg.chatweather.data.bean;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 /**
  * create by loogen on 2019-3-24
+ *
+ * 数据请求基类
  */
 public class BaseBean<T> {
     private List<T> results;
     private String status;
-    private String status_code;
+    @SerializedName("status_code")
+    private String statusCode;
 
     public List<T> getResults() {
         return results;
@@ -26,12 +31,11 @@ public class BaseBean<T> {
         this.status = status;
     }
 
-    public String getStatus_code() {
-        return status_code;
+    public String getStatusCode() {
+        return statusCode;
     }
 
-    public void setStatus_code(String status_code) {
-        this.status_code = status_code;
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
     }
-
 }

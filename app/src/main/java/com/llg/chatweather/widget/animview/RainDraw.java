@@ -29,12 +29,12 @@ public class RainDraw extends BaseDraw  {
     }
 
     @Override
-    int setBackGround() {
+    protected int setBackGround() {
         return mContext.getResources().getColor(R.color.rain_bg);
     }
 
     @Override
-    void drawAnim(Canvas canvas) {
+    protected void drawAnim(Canvas canvas) {
         for (BaseLine line : mLines) {
             int x = line.getmStartX();
             int y = line.getmStartY();
@@ -66,7 +66,7 @@ public class RainDraw extends BaseDraw  {
     }
 
     @Override
-    public long setAnimDuration() {
-        return 300;
+    public long getAnimDuration() {
+        return 16;
     }
 }
