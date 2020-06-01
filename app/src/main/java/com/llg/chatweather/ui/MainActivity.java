@@ -36,13 +36,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ImmersionBar.with(this)
                 .transparentBar()
                 .titleBar(mBinding.toolbar)
                 .init();
-
         mBinding.setEvent(new EventHandler());
+
+        // TODO: 2020-6-1 读取添加的城市
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(WeatherFragment.newInstance("beijing"));
         fragments.add(WeatherFragment.newInstance("zhuhai"));

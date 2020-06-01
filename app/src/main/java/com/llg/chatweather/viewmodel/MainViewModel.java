@@ -14,6 +14,7 @@ public class MainViewModel extends BaseViewModel {
     public final MutableLiveData<Integer> curItem = new MutableLiveData<>(0);
     public final LiveData<String> curCity = new MutableLiveData<>();
     public final LiveData<List<String>> cityList = new MutableLiveData<>();
+    public final LiveData<Integer> weatherCode = new MutableLiveData<>(0);
 
 
 }

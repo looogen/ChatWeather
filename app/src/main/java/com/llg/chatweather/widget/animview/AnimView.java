@@ -52,6 +52,7 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
         mHolder.setFormat(PixelFormat.TRANSLUCENT);
         setFocusable(true);
         setFocusableInTouchMode(true);
+        setKeepScreenOn(true);
 
         //获取可以绘制的区域大小
         Rect rect = new Rect();
@@ -85,8 +86,8 @@ public class AnimView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (mAnimInterface != null){
                     mCanvas = mHolder.lockCanvas();
                     mAnimInterface.drawGraph(mCanvas,mDrawWidth,mDrawHeight);
+                    TimeUnit.MILLISECONDS.sleep(mAnimInterface.getAnimDuration());
                 }
-                TimeUnit.MILLISECONDS.sleep(mAnimInterface.getAnimDuration());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

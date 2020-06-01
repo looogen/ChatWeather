@@ -12,23 +12,23 @@ import androidx.annotation.Nullable;
  * 根据不同的天气加载不同的背景
  * create by loogen on 2019-4-23
  */
-public class SkyView extends FrameLayout {
+public class WeatherAnimaView extends FrameLayout {
 
     private Context mContext;
 
     private AnimView mAnimView;
 
-    private static final String TAG = SkyView.class.getSimpleName();
+    private static final String TAG = WeatherAnimaView.class.getSimpleName();
 
-    public SkyView(@NonNull Context context) {
+    public WeatherAnimaView(@NonNull Context context) {
         this(context, null);
     }
 
-    public SkyView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WeatherAnimaView(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
     }
 
-    public SkyView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public WeatherAnimaView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
         mAnimView= new AnimView(mContext);
@@ -36,7 +36,6 @@ public class SkyView extends FrameLayout {
     }
 
     private int preWeatherCode = -1;
-
 
     private BaseDraw mBaseDraw;
     public void setWeatherCode(int code) {

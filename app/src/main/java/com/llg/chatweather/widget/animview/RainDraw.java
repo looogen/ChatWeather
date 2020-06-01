@@ -46,13 +46,13 @@ public class RainDraw extends BaseDraw  {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
-        mPaint.setStrokeWidth(4);
+        mPaint.setStrokeWidth(2);
     }
 
     @Override
     void generateLine(int maxX, int maxY) {
         mLines.clear();
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < 50; i++) {
             RainLine rainLine = new RainLine(maxX, maxY);
             mLines.add(rainLine);
         }
@@ -67,6 +67,7 @@ public class RainDraw extends BaseDraw  {
 
     @Override
     public long getAnimDuration() {
+        //60fps
         return 16;
     }
 }

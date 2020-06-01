@@ -23,7 +23,7 @@ public class SunnyDraw extends BaseDraw {
 
     private List<SunnyLine> mSunnyLines;
 
-    public SunnyDraw(Context context){
+    public SunnyDraw(Context context) {
         mContext = context;
         mSunnyLines = new ArrayList<>();
         initPaint();
@@ -46,53 +46,64 @@ public class SunnyDraw extends BaseDraw {
 
     @Override
     protected void drawAnim(Canvas canvas) {
-        canvas.drawCircle(cx,cy,radius,mSunPaint);
-        for (SunnyLine line:mSunnyLines){
-            canvas.drawLine(line.getSx(),line.getSy(),line.getEx(),line.getEy(),mLinePaint);
+        canvas.drawCircle(cx, cy, radius, mSunPaint);
+        for (SunnyLine line : mSunnyLines) {
+            canvas.drawLine(line.getSx(), line.getSy(), line.getEx(), line.getEy(), mLinePaint);
         }
     }
 
+    //太阳圆心坐标
     private int cx;
     private int cy;
+    //太阳圆的半径
     private int radius;
     //太阳线数目
     private static final int sunlines = 10;
-    private double radian;
+    //线与圆的空白数
+    private static final int spacing = 3;
+
+    private int size;
+
+    private float radianRate;
 
     @Override
     void generateLine(int w, int h) {
-        cx = w/2;
-        cy = h/4;
-        radius = w/8;
+        cx = w / 2;
+        cy = h / 4;
+        radius = w / 8;
         mSunnyLines.clear();
-        radian = 2*Math.PI/sunlines;
-        for(int i = 0;i<sunlines;i++){
-            int sx = (int) (cx + (radius+3)*Math.cos(radian*i));
-            int sy = (int) (cy + (radius+3)*Math.sin(radian*i));
-            int ex = (int) (sx+ (radius+3)*Math.cos(radian*i));
-            int ey = (int) (sy+ (radius+3)*Math.sin(radian*i));
-            mSunnyLines.add(new SunnyLine(sx,sy,ex,ey));
+        radianRate = 2f / sunlines;
+        size = radius + spacing;
+        for (int i = 0; i < sunlines; i++) {
+            double radian = radianRate * i * Math.PI;
+            int sx = (int) (cx + size * Math.cos(radian));
+            int sy = (int) (cy + size * Math.sin(radian));
+            int ex = (int) (sx + size * Math.cos(radian));
+            int ey = (int) (sy + size * Math.sin(radian));
+            mSunnyLines.add(new SunnyLine(sx, sy, ex, ey));
         }
     }
 
-    private int j = 0;
+    boolean change = false;
     @Override
     void changeData() {
-        if (j++ >= 20){
-            j = 0;
-        }
-        for(int i = 0;i<sunlines;i++){
+        //造成一种旋转的错觉变化
+        float rate = change ? radianRate/2 : 0;
+        for (int i = 0; i < sunlines; i++) {
             SunnyLine line = mSunnyLines.get(i);
-            int sx = (int) (cx + (radius+3)*Math.cos((radian*i+Math.PI/18*j)%(2*Math.PI)));
-            int sy = (int) (cy + (radius+3)*Math.sin((radian*i+Math.PI/18*j)%(2*Math.PI)));
-            int ex = (int) (sx+ (radius+3)*Math.cos((radian*i+Math.PI/18*j)%(2*Math.PI)));
-            int ey = (int) (sy+ (radius+3)*Math.sin((radian*i+Math.PI/18*j)%(2*Math.PI)));
-            line.setLine(sx,sy,ex,ey);
+            double radian = (radianRate *i+rate) * Math.PI;
+            int sx = (int) (cx + size * Math.cos(radian));
+            int sy = (int) (cy + size * Math.sin(radian));
+            int ex = (int) (sx + size * Math.cos(radian));
+            int ey = (int) (sy + size * Math.sin(radian));
+            line.setLine(sx, sy, ex, ey);
         }
+        change = !change;
     }
 
     @Override
     public long getAnimDuration() {
-        return 100;
+        return 200;
     }
+
 }

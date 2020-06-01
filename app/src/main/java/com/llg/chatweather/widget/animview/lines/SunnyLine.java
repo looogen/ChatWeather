@@ -1,6 +1,5 @@
 package com.llg.chatweather.widget.animview.lines;
 
-import android.graphics.Point;
 
 /**
  * Created by leelugen

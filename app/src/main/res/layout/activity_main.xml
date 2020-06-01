@@ -17,19 +17,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            curItem="@{vm.curItem}"
-            pagerChangeListener="@{event}"
+        <com.llg.chatweather.widget.animview.WeatherAnimaView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:weatherCode="@{vm.weatherCode}" />
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             app:layout_constraintTop_toTopOf="parent"
             android:background="@null"
             android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,5 +60,12 @@
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.viewpager.widget.ViewPager
+            app:layout_constraintTop_toBottomOf="@id/coordinator_layout"
+            android:id="@+id/view_pager"
+            curItem="@{vm.curItem}"
+            pagerChangeListener="@{event}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
