@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import androidx.core.content.ContextCompat;
+
 import com.llg.chatweather.R;
 import com.llg.chatweather.widget.animview.lines.SunnyLine;
 
@@ -24,6 +26,7 @@ public class SunnyDraw extends BaseDraw {
     private List<SunnyLine> mSunnyLines;
 
     public SunnyDraw(Context context) {
+        super(context);
         mContext = context;
         mSunnyLines = new ArrayList<>();
         initPaint();
@@ -33,15 +36,10 @@ public class SunnyDraw extends BaseDraw {
         mSunPaint = new Paint();
         mSunPaint.setAntiAlias(true);
         mSunPaint.setColor(mContext.getResources().getColor(R.color.sun));
-        mSunPaint.setStrokeWidth(4);
+        mSunPaint.setStrokeWidth(2);
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(6);
+        mLinePaint.setStrokeWidth(2);
         mLinePaint.setColor(Color.YELLOW);
-    }
-
-    @Override
-    protected int setBackGround() {
-        return mContext.getResources().getColor(R.color.sunny_bg);
     }
 
     @Override
@@ -68,9 +66,9 @@ public class SunnyDraw extends BaseDraw {
 
     @Override
     void generateLine(int w, int h) {
-        cx = w / 2;
-        cy = h / 4;
-        radius = w / 8;
+        cx = 200;
+        cy = 200;
+        radius = 50;
         mSunnyLines.clear();
         radianRate = 2f / sunlines;
         size = radius + spacing;
@@ -106,4 +104,9 @@ public class SunnyDraw extends BaseDraw {
         return 200;
     }
 
+
+    @Override
+    public int getBackGround() {
+        return ContextCompat.getColor(mContext, R.color.sunny_bg);
+    }
 }

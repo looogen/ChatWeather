@@ -17,6 +17,7 @@ public class WeatherViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
     public WeatherViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+        //懒加载，不可见时不会调用onResume，即只执行到Lifecycle.State.STARTED状态
         super(fm,FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragments = fragments;
     }

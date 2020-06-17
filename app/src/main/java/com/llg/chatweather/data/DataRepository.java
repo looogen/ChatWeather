@@ -24,6 +24,5 @@ public class DataRepository extends BaseModel {
     @Override
     public void onClear() {
         super.onClear();
-
     }
 }

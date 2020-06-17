@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import androidx.core.content.ContextCompat;
+
 import com.llg.chatweather.R;
 import com.llg.chatweather.widget.animview.lines.BaseLine;
 import com.llg.chatweather.widget.animview.lines.RainLine;
@@ -17,21 +19,15 @@ import java.util.List;
  */
 public class RainDraw extends BaseDraw  {
 
-    private Context mContext;
-
     protected Paint mPaint;
 
     protected List<BaseLine> mLines = new ArrayList<>();
 
     public RainDraw(Context context){
-        mContext = context;
+        super(context);
         initPaint();
     }
 
-    @Override
-    protected int setBackGround() {
-        return mContext.getResources().getColor(R.color.rain_bg);
-    }
 
     @Override
     protected void drawAnim(Canvas canvas) {
@@ -67,7 +63,12 @@ public class RainDraw extends BaseDraw  {
 
     @Override
     public long getAnimDuration() {
-        //60fps
         return 16;
     }
+
+    @Override
+    public int getBackGround() {
+        return ContextCompat.getColor(mContext, R.color.rain_bg);
+    }
+
 }

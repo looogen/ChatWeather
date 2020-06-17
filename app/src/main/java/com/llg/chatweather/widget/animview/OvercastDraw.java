@@ -8,13 +8,13 @@ import androidx.core.content.ContextCompat;
 import com.llg.chatweather.R;
 
 /**
- * create by loogen on 2019-6-25
+ * create by loogen on 2020-6-3
  */
-public class CloudyDraw extends BaseDraw {
-
-    public CloudyDraw(Context context) {
+public class OvercastDraw extends BaseDraw {
+    public OvercastDraw(Context context) {
         super(context);
     }
+
 
     @Override
     protected void drawAnim(Canvas canvas) {
@@ -38,6 +38,7 @@ public class CloudyDraw extends BaseDraw {
 
     @Override
     public int getBackGround() {
-        return ContextCompat.getColor(mContext, R.color.cloudy_bg);
+        return ContextCompat.getColor(mContext, R.color.overcast_bg);
     }
+
 }

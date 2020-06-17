@@ -1,10 +1,10 @@
 package com.llg.chatweather.viewmodel;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.llg.chatweather.base.BaseViewModel;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,9 +12,11 @@ import java.util.List;
  */
 public class MainViewModel extends BaseViewModel {
     public final MutableLiveData<Integer> curItem = new MutableLiveData<>(0);
-    public final LiveData<String> curCity = new MutableLiveData<>();
-    public final LiveData<List<String>> cityList = new MutableLiveData<>();
-    public final LiveData<Integer> weatherCode = new MutableLiveData<>(0);
+    public final MutableLiveData<String> curCity = new MutableLiveData<>();
+    public final MutableLiveData<List<String>> cityList = new MutableLiveData<>();
+    public final MutableLiveData<Integer> weatherCode = new MutableLiveData<>(-1);
 
-
+    {
+        cityList.setValue(Arrays.asList("珠海", "北京", "武汉", "拉萨"));
+    }
 }

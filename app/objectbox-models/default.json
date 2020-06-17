@@ -1,0 +1,74 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:7070579470063742466",
+      "lastPropertyId": "9:351146646255103707",
+      "name": "CityWeather",
+      "properties": [
+        {
+          "id": "1:2923008019352572440",
+          "name": "dbId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3385309753945230892",
+          "name": "uid",
+          "indexId": "1:7412090042840880188",
+          "type": 9,
+          "flags": 2080
+        },
+        {
+          "id": "3:63806471885785496",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:7318519121427227363",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "5:4901830897853092277",
+          "name": "code",
+          "type": 9
+        },
+        {
+          "id": "6:2256105345237104589",
+          "name": "temperature",
+          "type": 9
+        },
+        {
+          "id": "7:3274492453825361184",
+          "name": "last_update",
+          "type": 9
+        },
+        {
+          "id": "8:3938524633779523769",
+          "name": "wind_direction",
+          "type": 9
+        },
+        {
+          "id": "9:351146646255103707",
+          "name": "wind_scale",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:7070579470063742466",
+  "lastIndexId": "1:7412090042840880188",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

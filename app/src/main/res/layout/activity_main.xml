@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -17,55 +16,82 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.llg.chatweather.widget.animview.WeatherAnimaView
+            android:id="@+id/bg_anim"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/design_default_color_secondary"
             app:weatherCode="@{vm.weatherCode}" />
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@null"
             android:id="@+id/coordinator_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@null"
+            app:layout_constraintTop_toTopOf="parent">
+
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 app:elevation="0dp">
+
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
-                    android:background="@null">
-                    <RelativeLayout
+                    app:contentInsetStart="0dp"
+                    app:layout_anchor="@+id/appbar"
+                    app:layout_anchorGravity="center">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/tv_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="Lable"
+                            android:text="@{vm.curCity}"
                             android:textColor="@color/white"
-                            android:textSize="22sp" />
+                            android:textSize="22sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <ImageView
                             android:id="@+id/iv_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_add" />
-                    </RelativeLayout>
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/ic_city_24"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:background="?attr/selectableItemBackground" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
+
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-        <androidx.viewpager.widget.ViewPager
+
+        <LinearLayout
+            android:id="@+id/indicator_layout"
             app:layout_constraintTop_toBottomOf="@id/coordinator_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             curItem="@{vm.curItem}"
             pagerChangeListener="@{event}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

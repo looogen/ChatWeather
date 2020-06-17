@@ -1,7 +1,15 @@
 package com.llg.chatweather.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,32 +49,110 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 .titleBar(mBinding.toolbar)
                 .init();
         mBinding.setEvent(new EventHandler());
+        mViewModel.cityList.observe(this, cityList -> {
+            if (cityList != null) {
+                initViewPager(cityList);
+                initIndicatorPoint(cityList.size());
+            }
+        });
 
-        // TODO: 2020-6-1 读取添加的城市
+
+    }
+
+    private void initViewPager(List<String> cityList) {
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(WeatherFragment.newInstance("beijing"));
-        fragments.add(WeatherFragment.newInstance("zhuhai"));
-        fragments.add(WeatherFragment.newInstance("kunming"));
-        WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getSupportFragmentManager(),fragments);
+        for (String city : cityList) {
+            fragments.add(WeatherFragment.newInstance(city));
+        }
+        WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), fragments);
         mBinding.viewPager.setAdapter(adapter);
+        mBinding.viewPager.setOffscreenPageLimit(3);
+        mViewModel.curCity.setValue(cityList.get(0));
+    }
+
+    private int num = 0;
+
+    private void initIndicatorPoint(int size) {
+        for (int i = 0; i < size; i++) {
+            ImageView point = new ImageView(this);
+            point.setImageResource(R.drawable.point_selector);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (i != 0) {
+                layoutParams.leftMargin = 16;
+            } else {
+                layoutParams.leftMargin = 0;
+            }
+            mBinding.indicatorLayout.addView(point, layoutParams);
+        }
+        mBinding.indicatorLayout.getChildAt(num).setSelected(true);
+    }
+
+    public void setWeatherCode(int code) {
+        Log.e(TAG, "setWeatherCode: " + code);
+        mViewModel.weatherCode.setValue(code);
+        getLifecycle().addObserver(mBinding.bgAnim);
     }
 
     public class EventHandler implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+//            Log.e(TAG, "onPageScrolled: ");
+//            startShowIndicatorAnimator();
+//            if (canSend) {
+//                canSend = false;
+//                mHandler.postDelayed(hideIndicator, 1000);
+//            }
         }
 
         @Override
         public void onPageSelected(int position) {
-            Log.e(TAG, "onPageSelected: "+position );
-            mViewModel.curItem.setValue(position);
+//            Log.e(TAG, "onPageSelected: " + position);
+            mViewModel.curCity.setValue(mViewModel.cityList.getValue().get(position));
+            mBinding.indicatorLayout.getChildAt(num).setSelected(false);
+            mBinding.indicatorLayout.getChildAt(position).setSelected(true);
+            num = position;
+//            mHandler.postDelayed(hideIndicator,200);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
 
         }
+    }
+
+    private boolean canSend = true;
+    private Handler mHandler = new Handler();
+    private Runnable hideIndicator = new Runnable() {
+        @Override
+        public void run() {
+            canSend = true;
+            startHideIndicatorAnimator();
+        }
+    };
+
+    private void startHideIndicatorAnimator() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mBinding.indicatorLayout, "alpha", 1, 0.9f, 0.7f, 0.5f, 0.2f, 0);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation, boolean isReverse) {
+                mBinding.indicatorLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+        animator.start();
+    }
+
+    private void startShowIndicatorAnimator() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mBinding.indicatorLayout, "alpha", 0, 0.2f, 0.5f, 0.7f, 0.9f, 1);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation, boolean isReverse) {
+                mBinding.indicatorLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        animator.start();
     }
 
 }
