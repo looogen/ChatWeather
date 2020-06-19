@@ -4,6 +4,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.annotation.Index;
 import io.objectbox.annotation.Unique;
+import io.objectbox.relation.ToMany;
 
 @Entity
 public class CityWeather {
@@ -20,6 +21,8 @@ public class CityWeather {
     public String last_update;//最后更新时间
     public String wind_direction;//风力方向
     public String wind_scale;//风力等级
+
+    public ToMany<Daily> dailies;
 
     public CityWeather(String uid, String name, String text, String code, String temperature, String last_update, String wind_direction, String wind_scale) {
         this.uid = uid;

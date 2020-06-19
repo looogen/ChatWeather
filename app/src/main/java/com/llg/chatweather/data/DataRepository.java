@@ -3,10 +3,12 @@ package com.llg.chatweather.data;
 import com.llg.chatweather.base.BaseModel;
 import com.llg.chatweather.data.bean.BaseBean;
 import com.llg.chatweather.data.bean.NowResultsBean;
+import com.llg.chatweather.data.db.entity.CityWeather;
 import com.llg.chatweather.http.Constant;
 import com.llg.chatweather.http.RetrofitRequestService;
 import com.llg.chatweather.utils.RxUtils;
 
+import io.objectbox.android.ObjectBoxLiveData;
 import io.reactivex.Observable;
 
 /**
@@ -20,6 +22,12 @@ public class DataRepository extends BaseModel {
                 .queryNow(Constant.API_KEY, location, language, unit)
                 .compose(RxUtils.rxRequestSchedulerHelper());
     }
+
+    private ObjectBoxLiveData<CityWeather> weatherLiveData;
+
+//    public ObjectBoxLiveData<CityWeather> getWeatherLiveData() {
+//        weatherLiveData = new ObjectBoxLiveData<>(DBHelper.)
+//    }
 
     @Override
     public void onClear() {

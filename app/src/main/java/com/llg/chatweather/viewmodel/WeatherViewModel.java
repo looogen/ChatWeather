@@ -12,6 +12,7 @@ import com.llg.chatweather.data.bean.BaseBean;
 import com.llg.chatweather.data.bean.NowResultsBean;
 import com.llg.chatweather.utils.CommonUtils;
 
+import io.objectbox.android.ObjectBoxLiveData;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -21,6 +22,8 @@ import io.reactivex.disposables.Disposable;
 public class WeatherViewModel extends BaseViewModel {
 
     private static final String TAG = WeatherViewModel.class.getSimpleName();
+
+
 
     public final ObservableField<String> city = new ObservableField<>();
     public final ObservableField<String> temperature = new ObservableField<>();
