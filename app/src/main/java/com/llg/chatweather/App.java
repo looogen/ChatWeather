@@ -4,7 +4,6 @@ import android.app.Application;
 import android.util.Log;
 
 import com.llg.chatweather.data.db.DBHelper;
-import com.llg.chatweather.data.db.entity.CityWeather;
 
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
@@ -27,11 +26,11 @@ public class App extends Application {
         });
 
         //test
-        DBHelper.addCityWeather(new CityWeather("AC000", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-        DBHelper.addCityWeather(new CityWeather("AC030", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-        DBHelper.addCityWeather(new CityWeather("AC040", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
+//        DBHelper.addCityWeather(new CityWeather("AC000", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
+//        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
+//        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
+//        DBHelper.addCityWeather(new CityWeather("AC030", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
+//        DBHelper.addCityWeather(new CityWeather("AC040", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
 
     }
 }

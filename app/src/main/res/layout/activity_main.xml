@@ -15,14 +15,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/cloudy_bg">
 
-        <com.llg.chatweather.widget.animview.WeatherAnimaView
-            android:id="@+id/bg_anim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/design_default_color_secondary"
-            app:weatherCode="@{vm.weatherCode}" />
+        <!--        <com.llg.chatweather.widget.animview.WeatherAnimaView-->
+        <!--            android:id="@+id/bg_anim"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@color/design_default_color_secondary"-->
+        <!--            app:weatherCode="@{vm.weatherCode}" />-->
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout"

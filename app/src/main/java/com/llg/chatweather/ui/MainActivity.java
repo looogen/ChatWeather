@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public void setWeatherCode(int code) {
         Log.e(TAG, "setWeatherCode: " + code);
         mViewModel.weatherCode.setValue(code);
-        getLifecycle().addObserver(mBinding.bgAnim);
+//        getLifecycle().addObserver(mBinding.bgAnim);
     }
 
     public class EventHandler implements ViewPager.OnPageChangeListener {

@@ -7,7 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.llg.chatweather.BR;
@@ -54,12 +53,7 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.setEvent(new EventHandler());
-        mViewModel.weatherCode.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                ((MainActivity) mActivity).setWeatherCode(integer);
-            }
-        });
+        mViewModel.weatherCode.observe(getViewLifecycleOwner(), code -> ((MainActivity) mActivity).setWeatherCode(code));
         Log.e(TAG, "onViewCreated: " + getCity());
     }
 
@@ -80,7 +74,17 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
         super.onResume();
         Log.e(TAG, "onResume: " + getCity());
         if (!isLoading) {
-            loadData();
+            if (getArguments() != null) {
+                mViewModel.getData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(), cityWeathers -> {
+                    if (cityWeathers.size() >= 1) {
+                        mViewModel.showNowWeatherData(cityWeathers.get(0));
+                    } else {
+                        refreshData();
+                    }
+                });
+            } else {
+                Log.e(TAG, "loadData: getArguments == null");
+            }
             isLoading = true;
         } else {
             if (mViewModel.weatherCode.getValue() != null) {
@@ -119,15 +123,21 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
     public class EventHandler implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            loadData();
+            refreshData();
         }
     }
 
-    private void loadData() {
+    private void refreshData() {
         if (getArguments() != null) {
-            mViewModel.requestData(getArguments().getString(KEY_LOCATION));
+            mViewModel.refreshing.setValue(true);
+            mViewModel.refreshData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(),
+                    cityWeather -> {
+                        mViewModel.showNowWeatherData(cityWeather);
+                        mViewModel.refreshing.setValue(false);
+                    });
         } else {
             Log.e(TAG, "loadData: getArguments == null");
         }
     }
+
 }
