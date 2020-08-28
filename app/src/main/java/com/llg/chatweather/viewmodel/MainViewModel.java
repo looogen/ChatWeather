@@ -14,9 +14,9 @@ public class MainViewModel extends BaseViewModel {
     public final MutableLiveData<Integer> curItem = new MutableLiveData<>(0);
     public final MutableLiveData<String> curCity = new MutableLiveData<>();
     public final MutableLiveData<List<String>> cityList = new MutableLiveData<>();
-    public final MutableLiveData<Integer> weatherCode = new MutableLiveData<>(-1);
+    public final MutableLiveData<String> weatherCode = new MutableLiveData<>();
 
     {
-        cityList.setValue(Arrays.asList("珠海", "北京", "武汉", "拉萨"));
+        cityList.setValue(Arrays.asList("珠海", "莫斯科", "武汉", "拉萨"));
     }
 }

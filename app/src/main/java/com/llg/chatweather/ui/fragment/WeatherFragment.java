@@ -1,6 +1,5 @@
 package com.llg.chatweather.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.llg.chatweather.BR;
 import com.llg.chatweather.R;
 import com.llg.chatweather.base.BaseFragment;
@@ -54,34 +55,27 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
         super.onViewCreated(view, savedInstanceState);
         mBinding.setEvent(new EventHandler());
         mViewModel.weatherCode.observe(getViewLifecycleOwner(), code -> ((MainActivity) mActivity).setWeatherCode(code));
+        mViewModel.errorMsg.observe(getViewLifecycleOwner(), this::showMessage);
         Log.e(TAG, "onViewCreated: " + getCity());
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.e(TAG, "onActivityCreated: " + getCity());
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        Log.e(TAG, "onAttach: " + getCity());
+    private void showMessage(String msg) {
+        Snackbar.make(mBinding.refreshLayout, msg, BaseTransientBottomBar.LENGTH_LONG).show();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume: " + getCity());
         if (!isLoading) {
             if (getArguments() != null) {
-                mViewModel.getData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(), cityWeathers -> {
-                    if (cityWeathers.size() >= 1) {
-                        mViewModel.showNowWeatherData(cityWeathers.get(0));
-                    } else {
-                        refreshData();
-                    }
-                });
+                refreshData();
+//                mViewModel.getData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(), cityWeathers -> {
+//                    if (cityWeathers.size() >= 1) {
+//                        mViewModel.showNowWeatherData(cityWeathers.get(0));
+//                    } else {
+//                        refreshData();
+//                    }
+//                });
             } else {
                 Log.e(TAG, "loadData: getArguments == null");
             }
@@ -90,34 +84,16 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
             if (mViewModel.weatherCode.getValue() != null) {
                 ((MainActivity) mActivity).setWeatherCode(mViewModel.weatherCode.getValue());
             } else {
-                ((MainActivity) mActivity).setWeatherCode(-1);
+                ((MainActivity) mActivity).setWeatherCode("");
             }
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.e(TAG, "onPause: " + getCity());
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         isLoading = false;
-        Log.e(TAG, "onDestroyView: " + getCity());
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.e(TAG, "onDetach: " + getCity());
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.e(TAG, "onDestroy: " + getCity());
     }
 
     public class EventHandler implements SwipeRefreshLayout.OnRefreshListener {
@@ -129,12 +105,14 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding, Weathe
 
     private void refreshData() {
         if (getArguments() != null) {
-            mViewModel.refreshing.setValue(true);
-            mViewModel.refreshData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(),
-                    cityWeather -> {
-                        mViewModel.showNowWeatherData(cityWeather);
-                        mViewModel.refreshing.setValue(false);
-                    });
+            mViewModel.refreshData(getArguments().getString(KEY_LOCATION));
+
+//            mViewModel.refreshing.setValue(true);
+//            mViewModel.refreshData(getArguments().getString(KEY_LOCATION)).observe(getViewLifecycleOwner(),
+//                    cityWeather -> {
+//                        mViewModel.showNowWeatherData(cityWeather);
+//                        mViewModel.refreshing.setValue(false);
+//                    });
         } else {
             Log.e(TAG, "loadData: getArguments == null");
         }

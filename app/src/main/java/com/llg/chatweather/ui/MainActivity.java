@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         mBinding.indicatorLayout.getChildAt(num).setSelected(true);
     }
 
-    public void setWeatherCode(int code) {
+    public void setWeatherCode(String code) {
         Log.e(TAG, "setWeatherCode: " + code);
         mViewModel.weatherCode.setValue(code);
 //        getLifecycle().addObserver(mBinding.bgAnim);

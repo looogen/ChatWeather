@@ -8,16 +8,16 @@ import androidx.viewpager.widget.ViewPager;
  */
 public class ViewPagerBindingAdapter {
 
-    @BindingAdapter(value = {"pagerChangeListener"},requireAll = false)
-    public static void addViewPagerChangeListener(ViewPager viewPager, ViewPager.OnPageChangeListener listener){
-        if (listener != null){
+    @BindingAdapter(value = {"pagerChangeListener"}, requireAll = false)
+    public static void addViewPagerChangeListener(ViewPager viewPager, ViewPager.OnPageChangeListener listener) {
+        if (listener != null) {
             viewPager.addOnPageChangeListener(listener);
         }
     }
 
-    @BindingAdapter(value = {"curItem"},requireAll = false)
-    public static void setCurrentItem(ViewPager viewPager,int position){
-        if (viewPager.getAdapter() != null){
+    @BindingAdapter(value = {"curItem"}, requireAll = false)
+    public static void setCurrentItem(ViewPager viewPager, int position) {
+        if (viewPager.getAdapter() != null) {
             if (viewPager.getCurrentItem() != position) {
                 viewPager.setCurrentItem(position);
             }
