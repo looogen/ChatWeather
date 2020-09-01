@@ -14,12 +14,5 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         DBHelper.init(this);
-        //test
-//        DBHelper.addCityWeather(new CityWeather("AC000", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-//        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-//        DBHelper.addCityWeather(new CityWeather("AC020", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-//        DBHelper.addCityWeather(new CityWeather("AC030", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-//        DBHelper.addCityWeather(new CityWeather("AC040", "xxx", "xxx", "xxx", "xxx", "xxx", "xxx", "ss"));
-
     }
 }

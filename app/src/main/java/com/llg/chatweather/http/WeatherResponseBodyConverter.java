@@ -28,11 +28,12 @@ public final class WeatherResponseBodyConverter<T> implements Converter<Response
 
     @Override
     public T convert(ResponseBody value) throws IOException {
-        //解析错误是返回的json结构，抛出自定义的异常信息
+
         String response = value.string();
         try {
             JSONObject json = new JSONObject(response);
             int errcode = json.optInt("errcode", 0);
+            //解析错误是返回的json结构，抛出自定义的异常信息
             if (errcode != 0) {
                 String errmsg = json.optString("errmsg");
                 throw new ResultException(errmsg, "errcode" + errcode);

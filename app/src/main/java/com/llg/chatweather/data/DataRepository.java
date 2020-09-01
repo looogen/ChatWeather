@@ -1,7 +1,8 @@
 package com.llg.chatweather.data;
 
 import com.llg.chatweather.base.BaseModel;
-import com.llg.chatweather.data.entity.NowWeather;
+import com.llg.chatweather.db.DBHelper;
+import com.llg.chatweather.entity.NowWeatherEntity;
 import com.llg.chatweather.http.RetrofitManager;
 import com.llg.chatweather.utils.RxUtils;
 
@@ -26,19 +27,21 @@ public class DataRepository extends BaseModel {
         return repository;
     }
 
-    public void getNowWeatherData(String city, DataResult<NowWeather> result) {
+    public void getNowWeatherData(String city, DataResult<NowWeatherEntity> result) {
         RetrofitManager.getWeatherAPIService()
                 .queryNow(null, city, null)
                 .compose(RxUtils.rxRequestSchedulerHelper())
-                .subscribe(new Observer<NowWeather>() {
+                .subscribe(new Observer<NowWeatherEntity>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         compositeDisposable.add(d);
                     }
 
                     @Override
-                    public void onNext(NowWeather nowWeather) {
-                        result.setResult(nowWeather, new NetState());
+                    public void onNext(NowWeatherEntity now) {
+                        //添加到数据库
+                        DBHelper.addNow(now);
+                        result.setResult(now, new NetState());
                     }
 
                     @Override

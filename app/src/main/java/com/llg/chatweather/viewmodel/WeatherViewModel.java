@@ -9,7 +9,7 @@ import com.llg.chatweather.base.BaseViewModel;
 import com.llg.chatweather.base.UnPeekLiveData;
 import com.llg.chatweather.data.DataRepository;
 import com.llg.chatweather.data.DataResult;
-import com.llg.chatweather.data.entity.NowWeather;
+import com.llg.chatweather.entity.NowWeatherEntity;
 
 /**
  * create by loogen on 2019-3-28
@@ -27,10 +27,10 @@ public class WeatherViewModel extends BaseViewModel {
 
     public void refreshData(String location) {
         refreshing.setValue(true);
-        DataRepository.getInstance().getNowWeatherData(location, new DataResult<>((nowWeather, netState) -> {
+        DataRepository.getInstance().getNowWeatherData(location, new DataResult<>((nowWeatherEntity, netState) -> {
             refreshing.setValue(false);
-            if (nowWeather != null) {
-                showNowWeatherData(nowWeather);
+            if (nowWeatherEntity != null) {
+                showNowWeatherData(nowWeatherEntity);
             } else {
                 Log.e(TAG, "refreshData: " + netState.getMessage());
                 errorMsg.setValue(netState.getMessage());
@@ -42,11 +42,11 @@ public class WeatherViewModel extends BaseViewModel {
 //        return DataRepository.getInstance().getWeatherData(location);
 //    }
 
-    public void showNowWeatherData(NowWeather weather) {
-        city.set(weather.getCity());
-        temperature.set(weather.getTem());
-        this.weather.set(weather.getWea());
-        weatherCode.setValue(weather.getWea_img());
+    public void showNowWeatherData(NowWeatherEntity weather) {
+        city.set(weather.city);
+        temperature.set(weather.tem);
+        this.weather.set(weather.wea);
+        weatherCode.setValue(weather.wea_img);
     }
 
 }

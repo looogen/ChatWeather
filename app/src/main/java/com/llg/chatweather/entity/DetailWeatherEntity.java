@@ -1,11 +1,11 @@
-package com.llg.chatweather.data.entity;
+package com.llg.chatweather.entity;
 
 import java.util.List;
 
 /**
  * Created by leelugen
  */
-public class DetailWeather {
+public class DetailWeatherEntity {
 
 
     /**
