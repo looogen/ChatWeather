@@ -1,13 +1,8 @@
 package com.llg.chatweather.entity;
 
-import com.google.gson.annotations.Expose;
-
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.objectbox.annotation.Index;
 import io.objectbox.annotation.Transient;
-import io.objectbox.annotation.Unique;
-import io.objectbox.relation.ToOne;
 
 /**
  * create by loogen on 2019-3-21
@@ -19,12 +14,6 @@ import io.objectbox.relation.ToOne;
 
 @Entity
 public class NowWeatherEntity {
-
-
-    @Id
-    @Expose(serialize = false, deserialize = false)
-    public long id;
-
 
     /**
      * date : 2020-08-26
@@ -52,6 +41,8 @@ public class NowWeatherEntity {
      * tem : 31
      * win : 西南风
      */
+    @Id(assignable = true)
+    public long cityid;
     public String date;
     public String countryEn;
     public String tem2;
@@ -62,9 +53,6 @@ public class NowWeatherEntity {
     public String tem1;
     public String visibility;
     public String city;
-    @Unique
-    @Index
-    public String cityid;
     public String pressure;
     public String air;
     public String air_pm25;
@@ -75,16 +63,23 @@ public class NowWeatherEntity {
 
     //数据库忽略该字段
     @Transient
-    public AlarmEntity alarm;
-
-    //Gson忽略该字段
-    @Expose(serialize = false, deserialize = false)
-    public ToOne<AlarmEntity> alarmEntityToOne;
-
+    public Alarm alarm;
     public String cityEn;
     public String win_speed;
     public String humidity;
     public String tem;
     public String win;
+
+
+    public class Alarm {
+        /**
+         * alarm_type :
+         * alarm_content :
+         * alarm_level :
+         */
+        public String alarm_type;
+        public String alarm_content;
+        public String alarm_level;
+    }
 }
 

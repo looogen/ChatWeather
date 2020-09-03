@@ -32,7 +32,7 @@
                 <TextView
                     android:id="@+id/tv_temperature"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:gravity="center"
@@ -43,7 +43,7 @@
                 <TextView
                     android:id="@+id/tv_weather"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:gravity="center"
@@ -54,7 +54,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="℃"
+                    android:text="°"
+                    android:textSize="30sp"
                     app:layout_constraintStart_toEndOf="@id/tv_temperature"
                     app:layout_constraintTop_toTopOf="@id/tv_temperature" />
 

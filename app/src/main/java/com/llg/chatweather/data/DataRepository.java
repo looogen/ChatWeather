@@ -40,7 +40,7 @@ public class DataRepository extends BaseModel {
                     @Override
                     public void onNext(NowWeatherEntity now) {
                         //添加到数据库
-                        DBHelper.addNow(now);
+                        DBHelper.addNowWeather(now);
                         result.setResult(now, new NetState());
                     }
 

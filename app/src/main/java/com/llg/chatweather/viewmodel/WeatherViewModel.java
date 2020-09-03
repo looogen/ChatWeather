@@ -19,8 +19,8 @@ public class WeatherViewModel extends BaseViewModel {
     private static final String TAG = "WeatherViewModel";
 
     public final ObservableField<String> city = new ObservableField<>();
-    public final ObservableField<String> temperature = new ObservableField<>();
-    public final ObservableField<String> weather = new ObservableField<>();
+    public final ObservableField<String> temperature = new ObservableField<>("--");
+    public final ObservableField<String> weather = new ObservableField<>("--");
     public final MutableLiveData<String> weatherCode = new UnPeekLiveData<>();
     public final MutableLiveData<String> errorMsg = new MutableLiveData<>();
 

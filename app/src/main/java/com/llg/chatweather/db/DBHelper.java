@@ -5,10 +5,12 @@ import android.content.Context;
 import com.llg.chatweather.BuildConfig;
 import com.llg.chatweather.entity.MyObjectBox;
 import com.llg.chatweather.entity.NowWeatherEntity;
+import com.llg.chatweather.entity.NowWeatherEntity_;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;
+import io.objectbox.query.QueryBuilder;
 
 /**
  * create by loogen on 2020-6-9
@@ -22,7 +24,6 @@ public class DBHelper {
                 .androidContext(context)
                 .name("cityWeather")
                 .build();
-
         if (BuildConfig.DEBUG) {
             new AndroidObjectBrowser(boxStore).start(context);
         }
@@ -32,25 +33,32 @@ public class DBHelper {
         return boxStore.boxFor(NowWeatherEntity.class);
     }
 
-    public static void addNow(NowWeatherEntity now) {
-        now.alarmEntityToOne.setTarget(now.alarm);
-        //TODO 存在bug 添加数据时 要判断有没有旧的值     ------更新操作
+    private static long getCityIdByName(String name) {
+        QueryBuilder<NowWeatherEntity> builder = getNowWeatherBox().query().contains(NowWeatherEntity_.city, name);
+        NowWeatherEntity nowWeather = builder.build().findFirst();
+        if (nowWeather != null) {
+            return nowWeather.cityid;
+        }
+        return -1;
+    }
+
+    public static void addNowWeather(NowWeatherEntity now) {
         getNowWeatherBox().put(now);
     }
 
-    public static void removeNowWeather(String cityId) {
-//        getNowWeatherBox().remove(weather);
+    public static NowWeatherEntity getNowWeather(String cityName) {
+        long cityId = getCityIdByName(cityName);
+        return getNowWeatherBox().get(cityId);
     }
 
-//    public static List<NowWeather> getAllNowWeather() {
-//        return getNowWeatherBox().query().build().find();
-//    }
+    public static void removeNowWeather(String cityName) {
+        long cityId = getCityIdByName(cityName);
+        getNowWeatherBox().remove(cityId);
+    }
 
-//    public static ObjectBoxLiveData<NowWeather> getCityWeather(String location) {
-//        return new ObjectBoxLiveData<>(getNowWeatherBox().query().equal(NowWeather.name, location).build());
-//    }
-
-    public static void removeAll() {
-        getNowWeatherBox().removeAll();
+    public static String[] getAllWeatherCityName() {
+        return getNowWeatherBox().query().build()
+                .property(NowWeatherEntity_.city)
+                .findStrings();
     }
 }

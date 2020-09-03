@@ -17,69 +17,15 @@ public class DetailWeatherEntity {
      * cityEn : zhuhai
      * cityid : 101280701
      */
-    private String countryEn;
-    private String country;
-    private String update_time;
-    private List<DayDetail> data;
-    private String city;
-    private String cityEn;
-    private String cityid;
 
-    public void setCountryEn(String countryEn) {
-        this.countryEn = countryEn;
-    }
+    public long cityid;
+    public String countryEn;
+    public String country;
+    public String update_time;
+    public List<DayDetail> data;
+    public String city;
+    public String cityEn;
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setUpdate_time(String update_time) {
-        this.update_time = update_time;
-    }
-
-    public void setData(List<DayDetail> data) {
-        this.data = data;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setCityEn(String cityEn) {
-        this.cityEn = cityEn;
-    }
-
-    public void setCityid(String cityid) {
-        this.cityid = cityid;
-    }
-
-    public String getCountryEn() {
-        return countryEn;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getUpdate_time() {
-        return update_time;
-    }
-
-    public List<DayDetail> getData() {
-        return data;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getCityEn() {
-        return cityEn;
-    }
-
-    public String getCityid() {
-        return cityid;
-    }
 
     public static class DayDetail {
         /**
@@ -101,159 +47,24 @@ public class DetailWeatherEntity {
          * tem : 29℃
          * win : ["南风","无持续风向"]
          */
-        private String date;
-        private String tem2;
-        private String air_level;
-        private List<Hours> hours;
-        private String week;
-        private String tem1;
-        private List<Index> index;
-        private int air;
-        private String wea;
-        private String air_tips;
-        private String wea_img;
-        private Alarm alarm;
-        private int humidity;
-        private String win_speed;
-        private String day;
-        private String tem;
-        private List<String> win;
+        public String date;
+        public String tem2;
+        public String air_level;
+        public List<Hours> hours;
+        public String week;
+        public String tem1;
+        public List<Index> index;
+        public int air;
+        public String wea;
+        public String air_tips;
+        public String wea_img;
+        public Alarm alarm;
+        public int humidity;
+        public String win_speed;
+        public String day;
+        public String tem;
+        public List<String> win;
 
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public void setTem2(String tem2) {
-            this.tem2 = tem2;
-        }
-
-        public void setAir_level(String air_level) {
-            this.air_level = air_level;
-        }
-
-        public void setHours(List<Hours> hours) {
-            this.hours = hours;
-        }
-
-        public void setWeek(String week) {
-            this.week = week;
-        }
-
-        public void setTem1(String tem1) {
-            this.tem1 = tem1;
-        }
-
-        public void setIndex(List<Index> index) {
-            this.index = index;
-        }
-
-        public void setAir(int air) {
-            this.air = air;
-        }
-
-        public void setWea(String wea) {
-            this.wea = wea;
-        }
-
-        public void setAir_tips(String air_tips) {
-            this.air_tips = air_tips;
-        }
-
-        public void setWea_img(String wea_img) {
-            this.wea_img = wea_img;
-        }
-
-        public void setAlarm(Alarm alarm) {
-            this.alarm = alarm;
-        }
-
-        public void setHumidity(int humidity) {
-            this.humidity = humidity;
-        }
-
-        public void setWin_speed(String win_speed) {
-            this.win_speed = win_speed;
-        }
-
-        public void setDay(String day) {
-            this.day = day;
-        }
-
-        public void setTem(String tem) {
-            this.tem = tem;
-        }
-
-        public void setWin(List<String> win) {
-            this.win = win;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public String getTem2() {
-            return tem2;
-        }
-
-        public String getAir_level() {
-            return air_level;
-        }
-
-        public List<Hours> getHours() {
-            return hours;
-        }
-
-        public String getWeek() {
-            return week;
-        }
-
-        public String getTem1() {
-            return tem1;
-        }
-
-        public List<Index> getIndex() {
-            return index;
-        }
-
-        public int getAir() {
-            return air;
-        }
-
-        public String getWea() {
-            return wea;
-        }
-
-        public String getAir_tips() {
-            return air_tips;
-        }
-
-        public String getWea_img() {
-            return wea_img;
-        }
-
-        public Alarm getAlarm() {
-            return alarm;
-        }
-
-        public int getHumidity() {
-            return humidity;
-        }
-
-        public String getWin_speed() {
-            return win_speed;
-        }
-
-        public String getDay() {
-            return day;
-        }
-
-        public String getTem() {
-            return tem;
-        }
-
-        public List<String> getWin() {
-            return win;
-        }
 
         public static class Hours {
             /**
@@ -263,51 +74,11 @@ public class DetailWeatherEntity {
              * tem : 29℃
              * win : 南风
              */
-            private String wea;
-            private String win_speed;
-            private String day;
-            private String tem;
-            private String win;
-
-            public void setWea(String wea) {
-                this.wea = wea;
-            }
-
-            public void setWin_speed(String win_speed) {
-                this.win_speed = win_speed;
-            }
-
-            public void setDay(String day) {
-                this.day = day;
-            }
-
-            public void setTem(String tem) {
-                this.tem = tem;
-            }
-
-            public void setWin(String win) {
-                this.win = win;
-            }
-
-            public String getWea() {
-                return wea;
-            }
-
-            public String getWin_speed() {
-                return win_speed;
-            }
-
-            public String getDay() {
-                return day;
-            }
-
-            public String getTem() {
-                return tem;
-            }
-
-            public String getWin() {
-                return win;
-            }
+            public String wea;
+            public String win_speed;
+            public String day;
+            public String tem;
+            public String win;
         }
 
         public static class Index {
@@ -316,33 +87,9 @@ public class DetailWeatherEntity {
              * title : 中国人民保险<br>中暑指数
              * desc : 暑气灼人，户外工作要避免长时间在阳光下曝晒。
              */
-            private String level;
-            private String title;
-            private String desc;
-
-            public void setLevel(String level) {
-                this.level = level;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getLevel() {
-                return level;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
+            public String level;
+            public String title;
+            public String desc;
         }
 
         public class Alarm {
@@ -351,33 +98,9 @@ public class DetailWeatherEntity {
              * alarm_content :
              * alarm_level :
              */
-            private String alarm_type;
-            private String alarm_content;
-            private String alarm_level;
-
-            public void setAlarm_type(String alarm_type) {
-                this.alarm_type = alarm_type;
-            }
-
-            public void setAlarm_content(String alarm_content) {
-                this.alarm_content = alarm_content;
-            }
-
-            public void setAlarm_level(String alarm_level) {
-                this.alarm_level = alarm_level;
-            }
-
-            public String getAlarm_type() {
-                return alarm_type;
-            }
-
-            public String getAlarm_content() {
-                return alarm_content;
-            }
-
-            public String getAlarm_level() {
-                return alarm_level;
-            }
+            public String alarm_type;
+            public String alarm_content;
+            public String alarm_level;
         }
     }
 }
