@@ -1,5 +1,8 @@
 package com.llg.chatweather.data;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.llg.chatweather.base.BaseModel;
 import com.llg.chatweather.db.DBHelper;
 import com.llg.chatweather.entity.NowWeatherEntity;
@@ -27,37 +30,46 @@ public class DataRepository extends BaseModel {
         return repository;
     }
 
-    public void getNowWeatherData(String city, DataResult<NowWeatherEntity> result) {
-        RetrofitManager.getWeatherAPIService()
-                .queryNow(null, city, null)
-                .compose(RxUtils.rxRequestSchedulerHelper())
-                .subscribe(new Observer<NowWeatherEntity>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        compositeDisposable.add(d);
-                    }
+    public LiveData<Resource<NowWeatherEntity>> getNowWeatherData(String city, boolean refresh) {
 
-                    @Override
-                    public void onNext(NowWeatherEntity now) {
-                        //添加到数据库
-                        DBHelper.addNowWeather(now);
-                        result.setResult(now, new NetState());
-                    }
+        MutableLiveData<Resource<NowWeatherEntity>> resource = new MutableLiveData<>();
+        if (refresh) {
+            RetrofitManager.getWeatherAPIService()
+                    .queryNow(null, city, null)
+                    .doOnNext(DBHelper::addNowWeather)//添加到本地数据库
+                    .compose(RxUtils.rxRequestSchedulerHelper())
+                    .doOnSubscribe(disposable -> resource.setValue(Resource.loading(null)))
+                    .subscribe(new Observer<NowWeatherEntity>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            addSubscribe(d);
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        result.setResult(new NetState(e.getMessage(), false));
-                    }
+                        @Override
+                        public void onNext(NowWeatherEntity now) {
+                            resource.setValue(Resource.success(now));
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            resource.setValue(Resource.error(null, e.getMessage()));
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+//            Observable.create(emitter -> {
+//                NowWeatherEntity entity = DBHelper.getNowWeather(city);
+//                emitter.onNext(entity);
+//            }).
+
+
+        }
+
+
+        return resource;
     }
-
-//    public ObjectBoxLiveData<NowWeather> getWeatherData(String location) {
-//        return DBHelper.getCityWeather(location);
-//    }
-
 }

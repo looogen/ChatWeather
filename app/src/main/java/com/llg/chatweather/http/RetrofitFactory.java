@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
  * create by loogen on 2019-3-25
  */
 public class RetrofitFactory {
-    private static final String TAG = "Retrofit";
+    private static final String TAG = "RetrofitFactory";
     private static final Retrofit mRetrofit = defaultFactory();
 
     public static Retrofit getRetrofit() {
@@ -26,8 +26,7 @@ public class RetrofitFactory {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                //打印retrofit日志
-                Log.i("RetrofitLog", "retrofitBack ======================= " + message);
+                Log.i(TAG, "retrofitBack ======================= " + message);
             }
         });
 
@@ -39,8 +38,8 @@ public class RetrofitFactory {
             Request request = chain.request();
             HttpUrl url = request.url();
             HttpUrl newUrl = url.newBuilder()
-                    .addQueryParameter("appid", Constant.APP_ID)
-                    .addQueryParameter("appsecret", Constant.API_SECRETE)
+                    .addQueryParameter(Constant.APP_ID_KEY, Constant.APP_ID)
+                    .addQueryParameter(Constant.APP_SECRET_KEY, Constant.API_SECRETE)
                     .build();
             Request newRequest = request.newBuilder().url(newUrl).build();
             Log.e(TAG, "intercept: " + newRequest);

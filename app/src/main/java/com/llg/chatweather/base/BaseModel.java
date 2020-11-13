@@ -1,17 +1,27 @@
 package com.llg.chatweather.base;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * create by loogen on 2020-5-21
  */
-public class BaseModel implements IModel {
+public abstract class BaseModel implements IModel {
 
-    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
 
     @Override
     public void onClear() {
-        compositeDisposable.clear();
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.clear();
+        }
+    }
+
+    protected void addSubscribe(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(disposable);
     }
 }

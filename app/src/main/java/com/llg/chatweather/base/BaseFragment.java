@@ -1,48 +1,43 @@
 package com.llg.chatweather.base;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import com.llg.chatweather.App;
 
-/**
- * create by loogen on 2020-5-26
- */
-public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends Fragment {
-    protected V mBinding;
-    protected VM mViewModel;
+public abstract class BaseFragment<V extends ViewDataBinding> extends Fragment {
+
+    protected V mViewDataBinding;
     protected AppCompatActivity mActivity;
 
     private ViewModelProvider mFragmentProvider;
     private ViewModelProvider mActivityProvider;
+    private ViewModelProvider.Factory mFactory;
 
-    protected abstract @LayoutRes int getLayoutId();
-    protected abstract int getVariableId();
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-        return mBinding.getRoot();
-    }
+    protected abstract void initViewMode();
+
+    protected abstract DataBindingConfig getDataBindingConfig();
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViewDataBinding();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initViewMode();
     }
 
     @Override
@@ -51,61 +46,68 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         mActivity = (AppCompatActivity) context;
     }
 
+    @Nullable
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mActivity = null;
-    }
-
-    /**
-     * 注入绑定
-     */
-    private void initViewDataBinding() {
-        mViewModel = initViewModel();
-        if (mViewModel == null) {
-            Class modelClass;
-            Type type = getClass().getGenericSuperclass();
-            if (type instanceof ParameterizedType) {
-                modelClass = (Class) ((ParameterizedType) type).getActualTypeArguments()[1];
-            } else {
-                //如果没有指定泛型参数，则默认使用BaseViewModel
-                modelClass = BaseViewModel.class;
-            }
-            mViewModel = (VM) getFragmentViewModel(modelClass);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        DataBindingConfig dataBindingConfig = getDataBindingConfig();
+        mViewDataBinding = DataBindingUtil.inflate(inflater, dataBindingConfig.getLayout(), container, false);
+        mViewDataBinding.setLifecycleOwner(this);
+        if (dataBindingConfig.getVmVariableId() != 0 && dataBindingConfig.getStateViewModel() != null) {
+            mViewDataBinding.setVariable(dataBindingConfig.getVmVariableId(), dataBindingConfig.getStateViewModel());
         }
-        mBinding.setVariable(getVariableId(),mViewModel);
-        mBinding.setLifecycleOwner(this);
+
+        //other Params
+        SparseArray<Object> bindingParams = dataBindingConfig.getBindingParams();
+        for (int i = 0, length = bindingParams.size(); i < length; i++) {
+            mViewDataBinding.setVariable(bindingParams.keyAt(i), bindingParams.valueAt(i));
+        }
+        return mViewDataBinding.getRoot();
     }
 
-    protected void setVariable(){
-
-    }
-
-
-    protected VM initViewModel() {
-        return null;
-    }
-
-    protected <T extends BaseViewModel> T getFragmentViewModel(@NonNull Class<T> modelClass) {
+    //viewmodel 生命周期范围在Fragment内
+    protected <T extends ViewModel> T getFragmentViewModel(@NonNull Class<T> modelClass) {
         if (mFragmentProvider == null) {
             mFragmentProvider = new ViewModelProvider(this);
         }
         return mFragmentProvider.get(modelClass);
     }
 
-    protected <T extends BaseViewModel> T getActivityViewModel(@NonNull Class<T> modelClass) {
+    //viewmodel 生命周期范围在Activity内
+    protected <T extends ViewModel> T getActivityViewModel(@NonNull Class<T> modelClass) {
         if (mActivityProvider == null) {
             mActivityProvider = new ViewModelProvider(mActivity);
         }
         return mActivityProvider.get(modelClass);
     }
 
-    @Override
-    public void onDestroy() {
-        if (mBinding != null) {
-            mBinding.unbind();
-        }
-        super.onDestroy();
+    //viewmodel 生命周期范围在Application内
+    protected ViewModelProvider getAppViewModelProvider() {
+        return new ViewModelProvider((App) mActivity.getApplicationContext(),
+                getAppFactory(mActivity));
     }
 
+    private ViewModelProvider.Factory getAppFactory(Activity activity) {
+        checkActivity(this);
+        Application application = checkApplication(activity);
+        if (mFactory == null) {
+            mFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(application);
+        }
+        return mFactory;
+    }
+
+    private Application checkApplication(Activity activity) {
+        Application application = activity.getApplication();
+        if (application == null) {
+            throw new IllegalStateException("Your activity/fragment is not yet attached to "
+                    + "Application. You can't request ViewModel before onCreate call.");
+        }
+        return application;
+    }
+
+    private void checkActivity(Fragment fragment) {
+        Activity activity = fragment.getActivity();
+        if (activity == null) {
+            throw new IllegalStateException("Can't create ViewModelProvider for detached fragment");
+        }
+    }
 }

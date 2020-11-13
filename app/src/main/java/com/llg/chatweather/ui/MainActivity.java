@@ -3,7 +3,6 @@ package com.llg.chatweather.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -19,44 +17,44 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.llg.chatweather.BR;
 import com.llg.chatweather.R;
 import com.llg.chatweather.base.BaseActivity;
+import com.llg.chatweather.base.DataBindingConfig;
 import com.llg.chatweather.databinding.ActivityMainBinding;
 import com.llg.chatweather.ui.adapter.WeatherViewPagerAdapter;
 import com.llg.chatweather.ui.fragment.WeatherFragment;
+import com.llg.chatweather.utils.CommonUtils;
 import com.llg.chatweather.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     private static final String TAG = "MainActivity";
+    private MainViewModel mViewModel;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
+    protected void initViewModel() {
+        mViewModel = getActivityViewModel(MainViewModel.class);
     }
 
     @Override
-    protected int getVariableId() {
-        return BR.vm;
+    protected DataBindingConfig getDataBindingConfig() {
+        return new DataBindingConfig(R.layout.activity_main, BR.vm, mViewModel)
+                .addBindingParam(BR.event, new EventHandler());
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void init() {
         ImmersionBar.with(this)
                 .transparentBar()
-                .titleBar(mBinding.toolbar)
+                .titleBar(mViewDataBinding.toolbar)
                 .init();
-        mBinding.setEvent(new EventHandler());
         mViewModel.cityList.observe(this, cityList -> {
-            if (cityList != null) {
+            if (CommonUtils.isCollNotEmpty(cityList)) {
                 initViewPager(cityList);
                 initIndicatorPoint(cityList.size());
             }
         });
-
-
     }
 
     private void initViewPager(List<String> cityList) {
@@ -65,8 +63,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             fragments.add(WeatherFragment.newInstance(city));
         }
         WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), fragments);
-        mBinding.viewPager.setAdapter(adapter);
-        mBinding.viewPager.setOffscreenPageLimit(3);
+        mViewDataBinding.viewPager.setAdapter(adapter);
+        mViewDataBinding.viewPager.setOffscreenPageLimit(3);
         mViewModel.curCity.setValue(cityList.get(0));
     }
 
@@ -83,9 +81,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             } else {
                 layoutParams.leftMargin = 0;
             }
-            mBinding.indicatorLayout.addView(point, layoutParams);
+            mViewDataBinding.indicatorLayout.addView(point, layoutParams);
         }
-        mBinding.indicatorLayout.getChildAt(num).setSelected(true);
+        mViewDataBinding.indicatorLayout.getChildAt(num).setSelected(true);
     }
 
     public void setWeatherCode(String code) {
@@ -109,8 +107,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         public void onPageSelected(int position) {
 //            Log.e(TAG, "onPageSelected: " + position);
             mViewModel.curCity.setValue(mViewModel.cityList.getValue().get(position));
-            mBinding.indicatorLayout.getChildAt(num).setSelected(false);
-            mBinding.indicatorLayout.getChildAt(position).setSelected(true);
+            mViewDataBinding.indicatorLayout.getChildAt(num).setSelected(false);
+            mViewDataBinding.indicatorLayout.getChildAt(position).setSelected(true);
             num = position;
 //            mHandler.postDelayed(hideIndicator,200);
         }
@@ -132,24 +130,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     };
 
     private void startHideIndicatorAnimator() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mBinding.indicatorLayout, "alpha", 1, 0.9f, 0.7f, 0.5f, 0.2f, 0);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 1, 0.9f, 0.7f, 0.5f, 0.2f, 0);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
-                mBinding.indicatorLayout.setVisibility(View.INVISIBLE);
+                mViewDataBinding.indicatorLayout.setVisibility(View.INVISIBLE);
             }
         });
         animator.start();
     }
 
     private void startShowIndicatorAnimator() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mBinding.indicatorLayout, "alpha", 0, 0.2f, 0.5f, 0.7f, 0.9f, 1);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 0, 0.2f, 0.5f, 0.7f, 0.9f, 1);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
-                mBinding.indicatorLayout.setVisibility(View.VISIBLE);
+                mViewDataBinding.indicatorLayout.setVisibility(View.VISIBLE);
             }
         });
         animator.start();

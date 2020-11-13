@@ -10,6 +10,8 @@ import com.llg.chatweather.entity.NowWeatherEntity_;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.android.AndroidObjectBrowser;
+import io.objectbox.android.ObjectBoxLiveData;
+import io.objectbox.query.Query;
 import io.objectbox.query.QueryBuilder;
 
 /**
@@ -17,20 +19,21 @@ import io.objectbox.query.QueryBuilder;
  */
 public class DBHelper {
 
-    private static BoxStore boxStore;
+    private static BoxStore sBoxStore;
 
     public static void init(Context context) {
-        boxStore = MyObjectBox.builder()
+        sBoxStore = MyObjectBox.builder()
                 .androidContext(context)
                 .name("cityWeather")
                 .build();
+
         if (BuildConfig.DEBUG) {
-            new AndroidObjectBrowser(boxStore).start(context);
+            new AndroidObjectBrowser(sBoxStore).start(context);
         }
     }
 
     private static Box<NowWeatherEntity> getNowWeatherBox() {
-        return boxStore.boxFor(NowWeatherEntity.class);
+        return sBoxStore.boxFor(NowWeatherEntity.class);
     }
 
     private static long getCityIdByName(String name) {
@@ -49,6 +52,11 @@ public class DBHelper {
     public static NowWeatherEntity getNowWeather(String cityName) {
         long cityId = getCityIdByName(cityName);
         return getNowWeatherBox().get(cityId);
+    }
+
+    public static ObjectBoxLiveData<NowWeatherEntity> getNowWeatherLiveData(String city) {
+        Query<NowWeatherEntity> query = getNowWeatherBox().query().equal(NowWeatherEntity_.city, city).build();
+        return new ObjectBoxLiveData<>(query);
     }
 
     public static void removeNowWeather(String cityName) {

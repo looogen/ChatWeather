@@ -3,7 +3,6 @@ package com.llg.chatweather.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.llg.chatweather.base.BaseViewModel;
-import com.llg.chatweather.db.DBHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +17,6 @@ public class MainViewModel extends BaseViewModel {
     public final MutableLiveData<String> weatherCode = new MutableLiveData<>();
 
     {
-        cityList.setValue(Arrays.asList(DBHelper.getAllWeatherCityName()));
+        cityList.setValue(Arrays.asList("珠海"));
     }
 }
