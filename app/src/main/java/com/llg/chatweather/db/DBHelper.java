@@ -51,6 +51,9 @@ public class DBHelper {
 
     public static NowWeatherEntity getNowWeather(String cityName) {
         long cityId = getCityIdByName(cityName);
+        if (cityId == -1) {
+            return null;
+        }
         return getNowWeatherBox().get(cityId);
     }
 

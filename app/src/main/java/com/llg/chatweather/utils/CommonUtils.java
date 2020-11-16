@@ -35,5 +35,11 @@ public class CommonUtils {
         return coll.size() > 0;
     }
 
+    public static boolean isTextEmpty(String text) {
+        if (text == null) {
+            return true;
+        }
+        return 0 == text.length();
+    }
 
 }

@@ -45,8 +45,8 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel.weatherCode.observe(getViewLifecycleOwner(), code -> ((MainActivity) mActivity).setWeatherCode(code));
-        mViewModel.errorMsg.observe(getViewLifecycleOwner(), this::showMessage);
+        mViewModel.weatherCode.observe(getActivity(), code -> ((MainActivity) mActivity).setWeatherCode(code));
+        mViewModel.errorMsg.observe(getActivity(), this::showMessage);
         Log.i(TAG, "onViewCreated: " + getCity());
     }
 
@@ -59,17 +59,11 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding> {
         super.onResume();
         if (!isLoading) {
             if (getArguments() != null) {
-                refreshData();
+                loadData();
             } else {
                 Log.e(TAG, "loadData: getArguments == null");
             }
             isLoading = true;
-        } else {
-            if (mViewModel.weatherCode.getValue() != null) {
-                ((MainActivity) mActivity).setWeatherCode(mViewModel.weatherCode.getValue());
-            } else {
-                ((MainActivity) mActivity).setWeatherCode("");
-            }
         }
     }
 
@@ -93,31 +87,28 @@ public class WeatherFragment extends BaseFragment<FragmentWeatherBinding> {
     public class EventHandler implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            refreshData();
+            loadData();
         }
     }
 
-    private void refreshData() {
-        if (getArguments() != null) {
-            mViewModel.refreshData(getArguments().getString(KEY_LOCATION)).observe(this, resource -> {
-                switch (resource.getStatus()) {
-                    case LOADING:
-                        mViewModel.refreshing.setValue(true);
-                        break;
-                    case SUCCESS:
-                        mViewModel.refreshing.setValue(false);
-                        if (resource.getData() != null) {
-                            mViewModel.showNowWeatherData(resource.getData());
-                        }
-                        break;
-                    case ERROR:
-                        mViewModel.refreshing.setValue(false);
-                        break;
-                }
-            });
-        } else {
-            Log.e(TAG, "loadData: getArguments == null");
-        }
+    private void loadData() {
+        mViewModel.refreshData(getCity()).observe(this, resource -> {
+            switch (resource.getStatus()) {
+                case LOADING:
+                    mViewModel.refreshing.setValue(true);
+                    break;
+                case SUCCESS:
+                    mViewModel.refreshing.setValue(false);
+                    if (resource.getData() != null) {
+                        mViewModel.showNowWeatherData(resource.getData());
+                    }
+                    break;
+                case ERROR:
+                    mViewModel.refreshing.setValue(false);
+                    mViewModel.errorMsg.setValue(resource.getMessage());
+                    break;
+            }
+        });
     }
 
 }
