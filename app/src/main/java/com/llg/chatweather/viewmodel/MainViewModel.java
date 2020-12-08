@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class MainViewModel extends BaseViewModel {
     public final MutableLiveData<Integer> curItem = new MutableLiveData<>(0);
-    public final MutableLiveData<String> curCity = new MutableLiveData<>();
     public final MutableLiveData<List<String>> cityList = new MutableLiveData<>();
     public final MutableLiveData<String> weatherCode = new MutableLiveData<>();
 

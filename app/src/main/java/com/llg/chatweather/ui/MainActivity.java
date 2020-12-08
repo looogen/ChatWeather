@@ -1,15 +1,13 @@
 package com.llg.chatweather.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.os.Handler;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,38 +21,50 @@ import com.llg.chatweather.ui.adapter.WeatherViewPagerAdapter;
 import com.llg.chatweather.ui.fragment.WeatherFragment;
 import com.llg.chatweather.utils.CommonUtils;
 import com.llg.chatweather.viewmodel.MainViewModel;
+import com.llg.chatweather.viewmodel.ToolbarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private MainViewModel mViewModel;
+    private ToolbarViewModel mToolbarViewModel;
 
     @Override
     protected void initViewModel() {
         mViewModel = getActivityViewModel(MainViewModel.class);
+        mToolbarViewModel = getActivityViewModel(ToolbarViewModel.class);
     }
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
         return new DataBindingConfig(R.layout.activity_main, BR.vm, mViewModel)
-                .addBindingParam(BR.event, new EventHandler());
+                .addBindingParam(BR.event, new EventHandler())
+                .addBindingParam(BR.click, this)
+                .addBindingParam(BR.toolbarVm, mToolbarViewModel);
     }
 
     @Override
     protected void init() {
+        //status bar
         ImmersionBar.with(this)
                 .transparentBar()
-                .titleBar(mViewDataBinding.toolbar)
+                .titleBar(mViewDataBinding.toolbarLayout.toolbar)
                 .init();
+
+        //toolbar
+        mToolbarViewModel.rightDrawable.set(ContextCompat.getDrawable(this, R.drawable.ic_city_24));
+
         mViewModel.cityList.observe(this, cityList -> {
             if (CommonUtils.isCollNotEmpty(cityList)) {
                 initViewPager(cityList);
                 initIndicatorPoint(cityList.size());
             }
         });
+
+
     }
 
     private void initViewPager(List<String> cityList) {
@@ -65,7 +75,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), fragments);
         mViewDataBinding.viewPager.setAdapter(adapter);
         mViewDataBinding.viewPager.setOffscreenPageLimit(3);
-        mViewModel.curCity.setValue(cityList.get(0));
+        mToolbarViewModel.title.set(cityList.get(0));
     }
 
     private int num = 0;
@@ -92,6 +102,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //        getLifecycle().addObserver(mBinding.bgAnim);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            //编辑地区页面
+            case R.id.toolbar_right:
+                Intent intent = new Intent(MainActivity.this, EditCityActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
+
     public class EventHandler implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -106,7 +129,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         @Override
         public void onPageSelected(int position) {
 //            Log.e(TAG, "onPageSelected: " + position);
-            mViewModel.curCity.setValue(mViewModel.cityList.getValue().get(position));
+            mToolbarViewModel.title.set(mViewModel.cityList.getValue().get(position));
             mViewDataBinding.indicatorLayout.getChildAt(num).setSelected(false);
             mViewDataBinding.indicatorLayout.getChildAt(position).setSelected(true);
             num = position;
@@ -119,38 +142,40 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         }
     }
 
-    private boolean canSend = true;
-    private Handler mHandler = new Handler();
-    private Runnable hideIndicator = new Runnable() {
-        @Override
-        public void run() {
-            canSend = true;
-            startHideIndicatorAnimator();
-        }
-    };
 
-    private void startHideIndicatorAnimator() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 1, 0.9f, 0.7f, 0.5f, 0.2f, 0);
-        animator.setDuration(500);
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation, boolean isReverse) {
-                mViewDataBinding.indicatorLayout.setVisibility(View.INVISIBLE);
-            }
-        });
-        animator.start();
-    }
-
-    private void startShowIndicatorAnimator() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 0, 0.2f, 0.5f, 0.7f, 0.9f, 1);
-        animator.setDuration(500);
-        animator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation, boolean isReverse) {
-                mViewDataBinding.indicatorLayout.setVisibility(View.VISIBLE);
-            }
-        });
-        animator.start();
-    }
+    // TODO 指示器动画效果
+//    private boolean canSend = true;
+//    private Handler mHandler = new Handler();
+//    private Runnable hideIndicator = new Runnable() {
+//        @Override
+//        public void run() {
+//            canSend = true;
+//            startHideIndicatorAnimator();
+//        }
+//    };
+//
+//    private void startHideIndicatorAnimator() {
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 1, 0.9f, 0.7f, 0.5f, 0.2f, 0);
+//        animator.setDuration(500);
+//        animator.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation, boolean isReverse) {
+//                mViewDataBinding.indicatorLayout.setVisibility(View.INVISIBLE);
+//            }
+//        });
+//        animator.start();
+//    }
+//
+//    private void startShowIndicatorAnimator() {
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(mViewDataBinding.indicatorLayout, "alpha", 0, 0.2f, 0.5f, 0.7f, 0.9f, 1);
+//        animator.setDuration(500);
+//        animator.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation, boolean isReverse) {
+//                mViewDataBinding.indicatorLayout.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        animator.start();
+//    }
 
 }

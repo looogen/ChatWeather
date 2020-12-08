@@ -11,6 +11,14 @@
         <variable
             name="event"
             type="com.llg.chatweather.ui.MainActivity.EventHandler" />
+
+        <variable
+            name="click"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="toolbarVm"
+            type="com.llg.chatweather.viewmodel.ToolbarViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,60 +32,11 @@
         <!--            android:layout_height="match_parent"-->
         <!--            android:background="@color/design_default_color_secondary"-->
         <!--            app:weatherCode="@{vm.weatherCode}" />-->
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinator_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                app:elevation="0dp">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    app:contentInsetStart="0dp"
-                    app:layout_anchor="@+id/appbar"
-                    app:layout_anchorGravity="center">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/tv_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@{vm.curCity}"
-                            android:textColor="@color/white"
-                            android:textSize="22sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/iv_right"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:background="?attr/selectableItemBackground"
-                            android:src="@drawable/ic_city_24"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.appcompat.widget.Toolbar>
-            </com.google.android.material.appbar.AppBarLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include
+            android:id="@+id/toolbarLayout"
+            layout="@layout/toolbar_layout"
+            app:click="@{click}"
+            app:vm="@{toolbarVm}" />
 
         <LinearLayout
             android:id="@+id/indicator_layout"
@@ -85,14 +44,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/coordinator_layout" />
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:curItem="@{vm.curItem}"
-            app:layout_constraintTop_toBottomOf="@id/coordinator_layout"
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
             app:pagerChangeListener="@{event}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

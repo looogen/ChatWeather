@@ -7,10 +7,10 @@ import com.llg.chatweather.widget.animview.WeatherAnimaView;
 /**
  * create by loogen on 2020-5-29
  */
-public class CustomBindingAdapter {
+public class MyWidgetBindingAdapter {
 
     @BindingAdapter(value = {"weatherCode"})
-    public static void setSkyView(WeatherAnimaView weatherAnimaView, int weatherCode){
+    public static void setSkyView(WeatherAnimaView weatherAnimaView, int weatherCode) {
         weatherAnimaView.setWeatherCode(weatherCode);
     }
 
